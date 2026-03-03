@@ -7,6 +7,8 @@
 
 #include "example_class.h"
 #include "node_test.h"
+#include "audio_player_test.h"
+
 
 using namespace godot;
 
@@ -17,6 +19,8 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	}
 	GDREGISTER_CLASS(ExampleClass);
 	GDREGISTER_CLASS(NodeTest);
+	GDREGISTER_CLASS(AudioNodeTest);
+
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
