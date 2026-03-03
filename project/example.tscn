@@ -4,18 +4,46 @@
 [ext_resource type="Script" uid="uid://rvu3xc0fcrmu" path="res://audio_node_test.gd" id="3_8lvy3"]
 [ext_resource type="Script" uid="uid://cte4jalives85" path="res://addons/sk_fly_camera/src/fly_camera.gd" id="3_wcwec"]
 
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_8lvy3"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_n51mc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lvy3"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_8lvy3"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_wcwec"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8lvy3"]
+sky_horizon_color = Color(0.4989401, 0.27390015, 0.12604162, 1)
+ground_bottom_color = Color(0.07958276, 0.20988822, 0.030651035, 1)
+ground_horizon_color = Color(0.1420086, 0.1442095, 0.1486113, 1)
+ground_curve = 0.02219143
+ground_energy_multiplier = 1.34
+
+[sub_resource type="Sky" id="Sky_wcwec"]
+sky_material = SubResource("ProceduralSkyMaterial_8lvy3")
+
+[sub_resource type="Environment" id="Environment_ei00m"]
+background_mode = 2
+sky = SubResource("Sky_wcwec")
 
 [node name="Meep" type="Node" unique_id=365007638]
 script = ExtResource("1_jdh55")
 
 [node name="AudioNodeTest" type="AudioNodeTest" parent="." unique_id=1077734283]
+stream = SubResource("AudioStreamGenerator_8lvy3")
 script = ExtResource("3_8lvy3")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=87246389]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=313065190]
 mesh = SubResource("BoxMesh_n51mc")
+surface_material_override/0 = SubResource("StandardMaterial3D_8lvy3")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3D" unique_id=1679639949]
+transform = Transform3D(50, 0, 0, 0, -2.1855694e-06, 50, 0, -50, -2.1855694e-06, 0, -2.255, 0)
+mesh = SubResource("QuadMesh_8lvy3")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2106732240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.9969487)
@@ -24,5 +52,24 @@ script = ExtResource("3_wcwec")
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1568951284]
 transform = Transform3D(-0.9991381, 0, -0.04150953, 0, 1, 0, 0.04150953, 0, -0.9991381, 0, 0, 0)
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=233257935]
+mesh = SubResource("SphereMesh_wcwec")
+
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1862970658]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.544735, 1.6126269, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.001663208, 1.6126269, 0)
+light_color = Color(0.7775725, 0.70565623, 7.70092e-07, 1)
+light_energy = 2.426
+shadow_enabled = true
+shadow_bias = 2.179
+shadow_normal_bias = 1.198
+shadow_opacity = 0.83
+shadow_blur = 10.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1879762848]
+transform = Transform3D(-0.1333507, 0.8899703, -0.4360855, 0.5228714, 0.43697128, 0.73188907, 0.8419163, -0.13041875, -0.5236105, -20.235947, 4.2532945, -22.378912)
+shadow_enabled = true
+shadow_opacity = 0.32
+shadow_blur = 10.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1643210846]
+environment = SubResource("Environment_ei00m")

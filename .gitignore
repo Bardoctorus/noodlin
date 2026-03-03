@@ -1,3 +1,9 @@
+# for now ignore assets used for testing
+assets
+
+
+
+
 # Godot auto generated files
 *.gen.*
 .godot/

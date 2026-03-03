@@ -2,6 +2,7 @@
 
 #include "godot_cpp/classes/wrapped.hpp"
 #include "godot_cpp/classes/audio_stream_player3d.hpp"
+#include "godot_cpp/classes/audio_stream_generator_playback.hpp"
 
 using namespace godot;
 
@@ -16,7 +17,6 @@ class AudioNodeTest : public AudioStreamPlayer3D {
         double timePassed = 0.0;
         const String NodeTestName = "Test Node";
         String changeMe = "Change Me"; 
-
     public:
         AudioNodeTest();
         ~AudioNodeTest();    
@@ -25,6 +25,8 @@ class AudioNodeTest : public AudioStreamPlayer3D {
         String getChangeMe() const ;
         void incrementSeconds();
         double getSecondsElapsed() const;
+        void printsPlayback(Ref<AudioStreamGeneratorPlayback> p);
+        
      
 
 
