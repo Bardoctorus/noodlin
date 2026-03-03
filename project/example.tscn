@@ -2,9 +2,27 @@
 
 [ext_resource type="Script" uid="uid://bkwk40ybs8kgm" path="res://example.gd" id="1_jdh55"]
 [ext_resource type="Script" uid="uid://rvu3xc0fcrmu" path="res://audio_node_test.gd" id="3_8lvy3"]
+[ext_resource type="Script" uid="uid://cte4jalives85" path="res://addons/sk_fly_camera/src/fly_camera.gd" id="3_wcwec"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_n51mc"]
 
 [node name="Meep" type="Node" unique_id=365007638]
 script = ExtResource("1_jdh55")
 
 [node name="AudioNodeTest" type="AudioNodeTest" parent="." unique_id=1077734283]
 script = ExtResource("3_8lvy3")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=87246389]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=313065190]
+mesh = SubResource("BoxMesh_n51mc")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2106732240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.9969487)
+script = ExtResource("3_wcwec")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1568951284]
+transform = Transform3D(-0.9991381, 0, -0.04150953, 0, 1, 0, 0.04150953, 0, -0.9991381, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1862970658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.544735, 1.6126269, 0)
