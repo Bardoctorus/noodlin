@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://dh0oj81pufivs"]
 
 [ext_resource type="Script" uid="uid://bkwk40ybs8kgm" path="res://example.gd" id="1_jdh55"]
+[ext_resource type="Script" uid="uid://byl0idkphfenx" path="res://node_test.gd" id="2_n51mc"]
 
 [node name="Meep" type="Node" unique_id=365007638]
 script = ExtResource("1_jdh55")
+
+[node name="NodeTest" type="NodeTest" parent="." unique_id=1515245210]
+script = ExtResource("2_n51mc")
