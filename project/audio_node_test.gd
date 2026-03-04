@@ -9,7 +9,12 @@ var thisName
 
 var util = Util.new()
 
-
+@export var WavetableType: Util.WaveTables
+@export_range(1, 4) var NumberOfOscillators: int
+@export_range(0, 10) var DetuneAmount
+var samplerate = 44100.0
+var wavetable
+var csynth = CppWavetableSynth.new()
 
 func _ready():
 	print("This Name: ", getTestName())
@@ -20,7 +25,9 @@ func _ready():
 	print("godot side audio gen: ",get_stream_playback())
 	printsPlayback(get_stream_playback())
 	
-	var table = util.fillWaveTable(64, Util.WaveTables.Triangle)
+	wavetable = util.fillWaveTable(WavetableType)
+	print(wavetable)
+	csynth.initOscillators(samplerate, 440.0, wavetable,NumberOfOscillators)
 
 	prevtime = 0
 	pass

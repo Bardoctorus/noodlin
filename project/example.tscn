@@ -4,13 +4,13 @@
 [ext_resource type="Script" uid="uid://rvu3xc0fcrmu" path="res://audio_node_test.gd" id="3_8lvy3"]
 [ext_resource type="Script" uid="uid://cte4jalives85" path="res://addons/sk_fly_camera/src/fly_camera.gd" id="3_wcwec"]
 
-[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_8lvy3"]
-
 [sub_resource type="BoxMesh" id="BoxMesh_n51mc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lvy3"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_8lvy3"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_8lvy3"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_wcwec"]
 
@@ -31,10 +31,6 @@ sky = SubResource("Sky_wcwec")
 [node name="Meep" type="Node" unique_id=365007638]
 script = ExtResource("1_jdh55")
 
-[node name="AudioNodeTest" type="AudioNodeTest" parent="." unique_id=1077734283]
-stream = SubResource("AudioStreamGenerator_8lvy3")
-script = ExtResource("3_8lvy3")
-
 [node name="Area3D" type="Area3D" parent="." unique_id=87246389]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=313065190]
@@ -44,6 +40,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_8lvy3")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3D" unique_id=1679639949]
 transform = Transform3D(50, 0, 0, 0, -2.1855694e-06, 50, 0, -50, -2.1855694e-06, 0, -2.255, 0)
 mesh = SubResource("QuadMesh_8lvy3")
+
+[node name="AudioNodeTest" type="AudioNodeTest" parent="Area3D" unique_id=1077734283]
+stream = SubResource("AudioStreamGenerator_8lvy3")
+script = ExtResource("3_8lvy3")
+WavetableType = 1
+NumberOfOscillators = 4
+DetuneAmount = 0.0
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2106732240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.9969487)
