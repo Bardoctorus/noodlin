@@ -7,7 +7,7 @@ var ms_elapsed
 var seconds_alive = 0
 var thisName
 
-
+var util = Util.new()
 
 
 
@@ -19,6 +19,8 @@ func _ready():
 	play()
 	print("godot side audio gen: ",get_stream_playback())
 	printsPlayback(get_stream_playback())
+	
+	var table = util.fillWaveTable(64, Util.WaveTables.Triangle)
 
 	prevtime = 0
 	pass
