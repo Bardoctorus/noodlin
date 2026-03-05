@@ -19,7 +19,8 @@ void CppWavetableOscillator::_bind_methods(){
 }
 
 CppWavetableOscillator::CppWavetableOscillator()
-{};
+{
+};
 
 float CppWavetableOscillator::getSample(){
     if (isPlaying == true){

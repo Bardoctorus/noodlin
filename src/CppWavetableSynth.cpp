@@ -43,9 +43,9 @@ void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, 
 
 void CppWavetableSynth::handleInput(bool message){
     if (message == true){
-        const CppWavetableOscillator *arrayptr = oscillator.ptr();
         for (size_t i = 0; i < oscillators.size(); i++)
         {
+            oscillators[i].call("start");
         }
         
             

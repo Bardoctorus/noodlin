@@ -6,8 +6,8 @@
 
 using namespace godot;
 
-class CppWavetableOscillator : public RefCounted {
-    GDCLASS(CppWavetableOscillator, RefCounted)
+class CppWavetableOscillator : public Object {
+    GDCLASS(CppWavetableOscillator, Object)
 
     protected:
         static void _bind_methods();
