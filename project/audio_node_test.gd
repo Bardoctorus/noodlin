@@ -16,19 +16,15 @@ var samplerate = 44100.0
 var wavetable
 var csynth = CppWavetableSynth.new()
 
+
 func _ready():
-	print("This Name: ", getTestName())
-	print("Change Me Init: ", changeMe)
-	changeMe = "I've Changed"
-	print("Change Me Init: ", changeMe)
-	play()
-	print("godot side audio gen: ",get_stream_playback())
-	printsPlayback(get_stream_playback())
+	
+	
 	
 	wavetable = util.fillWaveTable(WavetableType)
 	print(wavetable)
 	csynth.initOscillators(samplerate, 440.0, wavetable,NumberOfOscillators)
-
+	csynth.handleInput(true)
 	prevtime = 0
 	pass
 	

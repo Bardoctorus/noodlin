@@ -6,8 +6,8 @@
 
 using namespace godot;
 
-class CppWavetableOscillator : public Object {
-    GDCLASS(CppWavetableOscillator, Object)
+class CppWavetableOscillator : public RefCounted {
+    GDCLASS(CppWavetableOscillator, RefCounted)
 
     protected:
         static void _bind_methods();
@@ -27,7 +27,7 @@ class CppWavetableOscillator : public Object {
         float interpolateLiniarly();
         void _init(Array _waveTable, float _sampleRate, float _frequency);
         bool currentlyPlaying();
-
+        void setDetune(int oscNum, int oscCount, float detuneAmount);
     private:
         Array waveTable;
         float sampleRate;
@@ -35,6 +35,7 @@ class CppWavetableOscillator : public Object {
         float increment;
         float frequency;
         bool isPlaying;
+        float detune;
 
 
 };

@@ -28,8 +28,9 @@ class CppWavetableSynth: public RefCounted {
 
 
     private:
-        Ref<CppWavetableOscillator> oscillator;
-        TypedArray<Ref<CppWavetableOscillator>> oscillators;
+       // Ref<CppWavetableOscillator> oscillator;
+        Ref<CppWavetableOscillator> osc;
+        Array oscillators;
 
 };
 

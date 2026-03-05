@@ -20,7 +20,7 @@
 
 
 CppWavetableSynth::CppWavetableSynth(){
-
+    
 };
 
 
@@ -28,32 +28,51 @@ CppWavetableSynth::CppWavetableSynth(){
 
 
 void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, Array waveTable, int numOscillators) {
-    // you are doing this wrong - you need to memnew, or memnew_arr
     for (size_t i = 0; i < numOscillators; i++)
     {
-        oscillator.instantiate();
-        oscillator->_init(waveTable, _sampleRate, _startingFreq);
-        oscillators.push_back(oscillator);
-        print_line("Oscillator: ", oscillator->get_instance_id());
+        
+        Ref<CppWavetableOscillator> thosk;
+        thosk.instantiate();
+        thosk->_init(waveTable, _sampleRate, _startingFreq);
+        print_line("Oscillator instantiated with id: ",thosk->get_instance_id());
+        oscillators.push_back(thosk);
+
     }
 
     
 }
 
 
+
+
 void CppWavetableSynth::handleInput(bool message){
+
+    
+    // for (size_t i = 0; i < oscillators.size(); i++)
+    // {
+
+    //     Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+    //     print_line(hop->get_instance_id());
+    // }
+    
+    
     if (message == true){
-        for (size_t i = 0; i < oscillators.size(); i++)
-        {
-            oscillators[i].call("start");
-        }
-        
+       
+            
+       for (size_t i = 0; i < oscillators.size(); i++)
+    {
+
+        Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+        hop->start();
+    }
+
             
     }
     else{
         for (size_t i = 0; i < oscillators.size(); i++)
         {
-            oscillator->stop();
+            Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+            hop->stop();
         }
     }
 }
@@ -61,21 +80,25 @@ void CppWavetableSynth::updateFrequency(float _frequency){
     print_line("update freq: %s", _frequency);
     for (size_t i = 0; i < oscillators.size(); i++)
         {
-            oscillator->update(_frequency);
+            Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+            hop->update(_frequency);
         }
 }
 
 void CppWavetableSynth::render(Ref<AudioStreamGeneratorPlayback> playback){
+    // This needs thinking about differently to make sure it's always volume safe
     for (size_t i = 0; i < oscillators.size(); i++)
     {
-        if (oscillator->currentlyPlaying())
+        Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+            
+        if (hop->currentlyPlaying())
         {
             PackedVector2Array buffer;
             for (int i = 0; i < playback->get_frames_available(); ++i)
             {
-                float sample = oscillator->getSample();
-            // playback->push_frame(Vector2(sample, sample)); // actually slower in c++ according to docs
-            buffer.push_back(Vector2(sample, sample));
+                float sample = hop->getSample();
+                // For now sending nothing until we handle multiple voices
+                buffer.push_back(Vector2(0.0f, 0.0f));
             }
             playback->push_buffer(buffer);
         }

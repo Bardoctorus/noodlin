@@ -11,6 +11,8 @@ void CppWavetableOscillator::_bind_methods(){
 
     godot::ClassDB::bind_method(D_METHOD("getFrequency"), &CppWavetableOscillator::getFrequency);
     godot::ClassDB::bind_method(D_METHOD("setFrequency", "_frequency"), &CppWavetableOscillator::setFrequency);
+    godot::ClassDB::bind_method(D_METHOD("setDetune", "oscNum","oscCount","detuneAmount"), &CppWavetableOscillator::setDetune);
+
     godot::ClassDB::bind_method(D_METHOD("getIncrement"), &CppWavetableOscillator::getIncrement);
     godot::ClassDB::bind_method(D_METHOD("setIncrement", "_frequency"), &CppWavetableOscillator::setIncrement);
    
@@ -20,7 +22,11 @@ void CppWavetableOscillator::_bind_methods(){
 
 CppWavetableOscillator::CppWavetableOscillator()
 {
+
 };
+
+
+
 
 float CppWavetableOscillator::getSample(){
     if (isPlaying == true){
@@ -62,6 +68,12 @@ void CppWavetableOscillator::start(){
     setFrequency(frequency);
     isPlaying = true;
 }
+
+void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmount){
+    
+    
+}
+
 
 void CppWavetableOscillator::update(float _frequency){
     setFrequency(_frequency);  
