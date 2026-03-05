@@ -70,7 +70,12 @@ void CppWavetableOscillator::start(){
 }
 
 void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmount){
-    
+    // if odd:
+    // middle = ceil(oscCount/2)
+    // else middle = oscCount/2 + 0.5
+    // realoscnum = oscnum + 1
+    // factor = realoscnum - middle
+    // detune = detuneAmount * factor
     
 }
 
