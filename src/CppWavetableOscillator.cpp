@@ -2,7 +2,7 @@
 
 void CppWavetableOscillator::_bind_methods(){
     godot::ClassDB::bind_method(D_METHOD("getSample"), &CppWavetableOscillator::getSample);
-    godot::ClassDB::bind_method(D_METHOD("_init", "_waveTable", "_sampleRate","_frequency"), &CppWavetableOscillator::_init);
+    godot::ClassDB::bind_method(D_METHOD("_init", "_waveTable", "_sampleRate","_frequency", "_detuneMult"), &CppWavetableOscillator::_init);
     godot::ClassDB::bind_method(D_METHOD("start"), &CppWavetableOscillator::start);
     godot::ClassDB::bind_method(D_METHOD("update", "_frequency"), &CppWavetableOscillator::update);
     godot::ClassDB::bind_method(D_METHOD("currentlyPlaying"), &CppWavetableOscillator::currentlyPlaying);
@@ -40,15 +40,17 @@ float CppWavetableOscillator::getSample(){
     }
 }
 
-void CppWavetableOscillator::_init(Array _waveTable, float _sampleRate, float _frequency){
+void CppWavetableOscillator::_init(Array _waveTable, float _sampleRate, float _frequency, float _detuneMult){
     waveTable = _waveTable;
+    print_line(waveTable);
     sampleRate = _sampleRate;
-    setFrequency(_frequency);
+    frequency = _frequency;
     isPlaying = false;
+    detuneMultiplyer = _detuneMult;
 }
 
 void CppWavetableOscillator::setFrequency(float _frequency){
-    frequency = _frequency;
+    frequency = ceilf(_frequency * detune);
     setIncrement(frequency);
 }
 
@@ -67,9 +69,25 @@ float CppWavetableOscillator::getIncrement() const {
 void CppWavetableOscillator::start(){
     setFrequency(frequency);
     isPlaying = true;
+    print_line("Playing with freq ", frequency);
 }
 
 void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmount){
+    float middle;
+    float factor;
+    float oscnumplus1 = oscNum+1;
+    if(oscCount % 2 == 0){
+        middle = oscCount/2 + 0.5f;
+        print_line("even middle: ", middle);
+    }
+    else{
+        middle = ceilf((float)oscCount/2);
+        print_line("odd middle: ", middle);
+
+    }
+    factor = oscnumplus1 - middle;
+    detune = 1 + (factor/10) * detuneAmount;
+    print_line("Osc " , oscNum , " detune: " , detune);
     // if odd:
     // middle = ceil(oscCount/2)
     // else middle = oscCount/2 + 0.5

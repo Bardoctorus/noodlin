@@ -11,7 +11,8 @@
     godot::ClassDB::bind_method(D_METHOD("updateFrequency", "_frequency"), &CppWavetableSynth::updateFrequency);
     godot::ClassDB::bind_method(D_METHOD("render", "playback"), &CppWavetableSynth::render);
 
-    godot::ClassDB::bind_method(D_METHOD("initOscillators", "_sampleRate", "_startingFreq", "waveTable","numOscillators"), &CppWavetableSynth::initOscillators);
+
+    godot::ClassDB::bind_method(D_METHOD("initOscillators", "_sampleRate", "_startingFreq", "type","numOscillators", "_detuneMult"), &CppWavetableSynth::initOscillators);
 
 
 
@@ -27,19 +28,54 @@ CppWavetableSynth::CppWavetableSynth(){
 
 
 
-void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, Array waveTable, int numOscillators) {
+void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, int type, int numOscillators, float _detuneMult) {
+    Array waveTable;
+    for(int i = 0; i < WAVETABLE_LENGTH; ++i){
+    float value;
+        switch (type)
+        {
+            //SAWTOOTHWAVE
+        case 0:
+            value = 2.0f * ((float)i / WAVETABLE_LENGTH) - 1.0f;
+            break;
+            //SQUAREWAVE
+        case 1:
+            value = sinf(Math_TAU * ((float)i / WAVETABLE_LENGTH)) >= 0.0 ? 1.0:-1.0;
+            break;
+            //SINEWAVE
+        case 2:
+            value = sinf(Math_TAU * ((float)i / WAVETABLE_LENGTH));
+            break;
+            //TRIANGLEWAVE
+        case 3:
+            value = 1 - fabs(((float)i / WAVETABLE_LENGTH)-0.5f) * 4;
+            break;
+
+        default:
+            value = 0.0f;
+            break;
+        }
+
+    waveTable.append(value);
+    }
+    
     for (size_t i = 0; i < numOscillators; i++)
     {
         
         Ref<CppWavetableOscillator> thosk;
         thosk.instantiate();
-        thosk->_init(waveTable, _sampleRate, _startingFreq);
+        thosk->_init(waveTable, _sampleRate, _startingFreq, _detuneMult);
+        thosk->setDetune(i, numOscillators,_detuneMult);
         print_line("Oscillator instantiated with id: ",thosk->get_instance_id());
         oscillators.push_back(thosk);
 
     }
 
-    
+
+        osc1 = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[0]));
+        osc2 = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[1]));
+
+
 }
 
 
@@ -85,23 +121,31 @@ void CppWavetableSynth::updateFrequency(float _frequency){
         }
 }
 
+
+
 void CppWavetableSynth::render(Ref<AudioStreamGeneratorPlayback> playback){
     // This needs thinking about differently to make sure it's always volume safe
-    for (size_t i = 0; i < oscillators.size(); i++)
+    
+    PackedVector2Array buffer;
+    
+    for (int i = 0; i < playback->get_frames_available(); ++i)
     {
-        Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
-            
-        if (hop->currentlyPlaying())
-        {
-            PackedVector2Array buffer;
-            for (int i = 0; i < playback->get_frames_available(); ++i)
-            {
-                float sample = hop->getSample();
-                // For now sending nothing until we handle multiple voices
-                buffer.push_back(Vector2(0.0f, 0.0f));
-            }
-            playback->push_buffer(buffer);
-        }
-       }
+        float sample;
+        // for (size_t i = 0; i < oscillators.size(); i++)
+        // {
+        // Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+        
+        //     if (hop->currentlyPlaying())
+        //     {
+        //         sample += hop->getSample();   
+        //     }
+        // }
+        // can this fuck up
+
+        sample += osc1->getSample();
+        sample += osc2->getSample();
+        buffer.push_back(Vector2(sample, sample));
+    }
+    playback->push_buffer(buffer);
 }
 

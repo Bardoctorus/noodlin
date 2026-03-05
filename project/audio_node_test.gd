@@ -9,32 +9,27 @@ var thisName
 
 var util = Util.new()
 
-@export var WavetableType: Util.WaveTables
+#@export var WavetableType: Util.WaveTables
 @export_range(1, 4) var NumberOfOscillators: int
 @export_range(0, 10) var DetuneAmount
 var samplerate = 44100.0
 var wavetable
-var csynth = CppWavetableSynth.new()
-
+var csynth := CppWavetableSynth.new()
+var playback
 
 func _ready():
 	
 	
+	#wavetable = util.fillWaveTable(WavetableType)
+	#print(wavetable)
 	
-	wavetable = util.fillWaveTable(WavetableType)
-	print(wavetable)
-	csynth.initOscillators(samplerate, 440.0, wavetable,NumberOfOscillators)
+	csynth.initOscillators(samplerate, 440.0, 0 ,NumberOfOscillators, DetuneAmount)
+	play()
+	playback = get_stream_playback()
 	csynth.handleInput(true)
 	prevtime = 0
 	pass
 	
 func _process(_delta):
-	nowtime = Time.get_ticks_msec()
-
-	
-	if (nowtime - prevtime >= 1000):
-		incrementSeconds()
-		seconds_alive = getSecondsElapsed()
-		#print("seconds alive: ", seconds_alive)
-		prevtime = nowtime
-	
+	csynth.render(playback)
+	pass

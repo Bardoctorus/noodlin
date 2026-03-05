@@ -13,8 +13,8 @@ func fillWaveTable(type: WaveTables = Util.WaveTables.Sine, wavetablesize:int = 
 			print("Generated Sine wavetable of length ", wavetablesize)
 		WaveTables.Square:
 			for i in wavetablesize:
-				i = 1.0 if (sin(TAU * i as float / wavetablesize) >= 0.0) else -1.0
-				wavetableArray.push_back(i) 
+				var val = 1.0 if (sin(TAU * i as float / wavetablesize) >= 0.0) else -1.0
+				wavetableArray.push_back(val) 
 			print("Generated Square wavetable of length ", wavetablesize)
 		WaveTables.Saw:
 			for i in wavetablesize:

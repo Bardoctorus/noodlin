@@ -24,12 +24,15 @@ class CppWavetableSynth: public RefCounted {
         void handleInput(bool message);
         void updateFrequency(float _frequency);
         void render(Ref<AudioStreamGeneratorPlayback> playback);
-        void initOscillators(float _sampleRate, float _startingFreq, Array waveTable, int numOscillators);
+        void initOscillators(float _sampleRate, float _startingFreq, int type, int numOscillators, float _detuneMult);
+        Ref<CppWavetableOscillator> osc1;
+        Ref<CppWavetableOscillator> osc2;
 
 
     private:
        // Ref<CppWavetableOscillator> oscillator;
-        Ref<CppWavetableOscillator> osc;
+        
+
         Array oscillators;
 
 };
