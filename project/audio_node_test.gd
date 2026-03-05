@@ -23,7 +23,7 @@ func _ready():
 	#wavetable = util.fillWaveTable(WavetableType)
 	#print(wavetable)
 	
-	csynth.initOscillators(samplerate, 440.0, 0 ,NumberOfOscillators, DetuneAmount)
+	csynth.initOscillators(samplerate, 440.0, 1 ,NumberOfOscillators, DetuneAmount)
 	play()
 	playback = get_stream_playback()
 	csynth.handleInput(true)

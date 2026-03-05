@@ -11,7 +11,7 @@
 [sub_resource type="QuadMesh" id="QuadMesh_8lvy3"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_8lvy3"]
-buffer_length = 2.69
+buffer_length = 0.02
 
 [sub_resource type="SphereMesh" id="SphereMesh_wcwec"]
 
@@ -46,8 +46,8 @@ mesh = SubResource("QuadMesh_8lvy3")
 stream = SubResource("AudioStreamGenerator_8lvy3")
 autoplay = true
 script = ExtResource("3_8lvy3")
-NumberOfOscillators = 2
-DetuneAmount = 0.141
+NumberOfOscillators = 4
+DetuneAmount = 0.047
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2106732240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.9969487)

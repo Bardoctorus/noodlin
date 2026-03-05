@@ -73,7 +73,7 @@ void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, 
 
 
         osc1 = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[0]));
-        osc2 = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[1]));
+       osc2 = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[1]));
 
 
 }
@@ -130,20 +130,20 @@ void CppWavetableSynth::render(Ref<AudioStreamGeneratorPlayback> playback){
     
     for (int i = 0; i < playback->get_frames_available(); ++i)
     {
-        float sample;
-        // for (size_t i = 0; i < oscillators.size(); i++)
-        // {
-        // Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+        float sample = 0;
+        for (size_t i = 0; i < oscillators.size(); i++)
+        {
+        Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
         
-        //     if (hop->currentlyPlaying())
-        //     {
-        //         sample += hop->getSample();   
-        //     }
-        // }
+            if (hop->currentlyPlaying())
+            {
+                sample += hop->getSample();   
+            }
+        }
         // can this fuck up
 
-        sample += osc1->getSample();
-        sample += osc2->getSample();
+        // sample += osc1->getSample();
+        // sample += osc2->getSample();
         buffer.push_back(Vector2(sample, sample));
     }
     playback->push_buffer(buffer);
