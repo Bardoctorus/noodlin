@@ -23,8 +23,13 @@
 #ifndef ADRS_h
 #define ADRS_h
 
+#include "godot_cpp/classes/wrapped.hpp"
+#include "godot_cpp/classes/node.hpp"
 
-class ADSR {
+
+using namespace godot;
+
+class ADSR : public Node {
 public:
 	ADSR(void);
 	~ADSR(void);

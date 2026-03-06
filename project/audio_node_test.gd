@@ -61,3 +61,11 @@ func _on_detune_slider_value_changed(value):
 func _on_powerbutton_toggled(toggled_on):
 	csynth.handleInput(toggled_on)
 	pass # Replace with function body.
+
+
+func _on_gatebutton_button_down():
+	pass # Replace with function body.
+
+
+func _on_gatebutton_button_up():
+	pass # Replace with function body.

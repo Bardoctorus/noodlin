@@ -8,7 +8,9 @@
 
 
  void CppWavetableSynth::_bind_methods(){
-    godot::ClassDB::bind_method(D_METHOD("handleInput", "message"), &CppWavetableSynth::handleInput);
+    godot::ClassDB::bind_method(D_METHOD("isPlaying", "message"), &CppWavetableSynth::isPlaying);
+    godot::ClassDB::bind_method(D_METHOD("gateTriggered", "message"), &CppWavetableSynth::gateTriggered);
+
     godot::ClassDB::bind_method(D_METHOD("updateFrequency", "_frequency"), &CppWavetableSynth::updateFrequency);
     godot::ClassDB::bind_method(D_METHOD("updateDetune", "_detuneAmount"), &CppWavetableSynth::updateDetune);
     godot::ClassDB::bind_method(D_METHOD("updateAmplitude", "_amplitude"), &CppWavetableSynth::updateAmplitude);
@@ -87,7 +89,7 @@ void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, 
 
 
 
-void CppWavetableSynth::handleInput(bool message){
+void CppWavetableSynth::isPlaying(bool message){
     if (message == true){
                  
        for (size_t i = 0; i < oscillators.size(); i++)
@@ -95,7 +97,6 @@ void CppWavetableSynth::handleInput(bool message){
 
         Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
         hop->start();
-        
         }         
     }
     else{
@@ -106,8 +107,11 @@ void CppWavetableSynth::handleInput(bool message){
         }
     }
 }
-void CppWavetableSynth::updateFrequency(float _frequency){
-    //print_line("update freq: %s", _frequency);
+void CppWavetableSynth::gateTriggered(bool message) {
+    adsr.gate(message);
+}
+void CppWavetableSynth::updateFrequency(float _frequency) {
+	//print_line("update freq: %s", _frequency);
     for (size_t i = 0; i < oscillators.size(); i++)
         {
             Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));

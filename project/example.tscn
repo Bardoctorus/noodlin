@@ -175,3 +175,5 @@ environment = SubResource("Environment_ei00m")
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/freq box/freq slider" to="Area3D/AudioNodeTest" method="_on_freq_slider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/detune box/detune slider" to="Area3D/AudioNodeTest" method="_on_detune_slider_value_changed"]
 [connection signal="toggled" from="CharacterBody3D/Camera3D/Container/detune box2/powerbutton" to="Area3D/AudioNodeTest" method="_on_powerbutton_toggled"]
+[connection signal="button_down" from="CharacterBody3D/Camera3D/Container/detune box2/gatebutton" to="Area3D/AudioNodeTest" method="_on_gatebutton_button_down"]
+[connection signal="button_up" from="CharacterBody3D/Camera3D/Container/detune box2/gatebutton" to="Area3D/AudioNodeTest" method="_on_gatebutton_button_up"]

@@ -4,7 +4,7 @@
 #include "godot_cpp/classes/ref_counted.hpp"
 #include "godot_cpp/classes/audio_stream_generator_playback.hpp"
 #include "CppWavetableOscillator.h"
-#include "util/ADSR.h"
+#include "ADSR.h"
 
 
 using namespace godot;
@@ -23,7 +23,8 @@ class CppWavetableSynth: public RefCounted {
     public:
         CppWavetableSynth();
         ~CppWavetableSynth() = default;
-        void handleInput(bool message);
+        void isPlaying(bool message);
+        void gateTriggered(bool message);
         void updateFrequency(float _frequency);
         void updateDetune(float _detuneAmount);
         void updateAmplitude(float _amplitude);

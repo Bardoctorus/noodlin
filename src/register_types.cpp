@@ -10,6 +10,8 @@
 #include "audio_player_test.h"
 #include "CppWavetableSynth.h"
 #include "CppWavetableOscillator.h"
+#include "ADSR.h"
+
 
 
 using namespace godot;
@@ -24,6 +26,8 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	GDREGISTER_CLASS(AudioNodeTest);
 	GDREGISTER_CLASS(CppWavetableSynth);
 	GDREGISTER_CLASS(CppWavetableOscillator);
+	GDREGISTER_CLASS(ADSR);
+
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
