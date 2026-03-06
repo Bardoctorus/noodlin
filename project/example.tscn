@@ -50,6 +50,7 @@ autoplay = true
 script = ExtResource("3_8lvy3")
 NumberOfOscillators = 5
 DetuneAmount = 0.0
+TableType = 2
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2106732240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.9969487)
@@ -233,12 +234,12 @@ step = 0.01
 value = 0.22
 
 [node name="lfoamountval" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=2107963447]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "0.01"
 
 [node name="lfofreqlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1664046159]
-unique_name_in_owner = true
 layout_mode = 2
 text = "LFO Freq"
 

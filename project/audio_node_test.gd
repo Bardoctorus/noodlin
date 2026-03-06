@@ -77,7 +77,7 @@ func _on_releaseslider_value_changed(value):
 
 
 func _on_lfoamountslider_value_changed(value):
-	%lfofreqlabel.text = str(value)
+	%lfoamountval.text = str(value)
 	csynth.updateLfoAmount(value)
 
 

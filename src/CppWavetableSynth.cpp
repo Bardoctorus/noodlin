@@ -94,7 +94,8 @@ void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, 
        lfoAmount = 0.1f;
 
        lfo.instantiate();
-       lfo->_init(waveTable, _sampleRate, 3.0);
+       Array lfotable = waveTable.duplicate(true);
+       lfo->_init(lfotable, _sampleRate, 30.0);
 
 
 }
@@ -150,7 +151,7 @@ void CppWavetableSynth::updateFrequency(float _frequency) {
 }
 
 void CppWavetableSynth::updateLfoFrequency(float _frequency) {
-    print_line("update lfo freq: %s", _frequency);
+    //print_line("update lfo freq: %s", _frequency);
 
     lfo->update(_frequency);
 }

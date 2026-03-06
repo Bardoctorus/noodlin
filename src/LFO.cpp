@@ -56,7 +56,7 @@ void LFO::_init(Array _waveTable, float _sampleRate, float _frequency){
 void LFO::setFrequency(float _frequency){
    
     frequency = _frequency;
-    //print_line("New freq: ",newFrequency);
+    print_line("New LFO freq: ",_frequency);
     //frequency = _frequency;
     setIncrement(frequency);
 }
