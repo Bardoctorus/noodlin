@@ -118,6 +118,34 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
+[node name="detune box2" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=1882431919]
+layout_mode = 2
+
+[node name="powerlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=1218734905]
+layout_mode = 2
+text = "Power"
+
+[node name="powerbutton" type="CheckButton" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=678856948]
+layout_mode = 2
+
+[node name="gatelabel" type="Label" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=750233112]
+layout_mode = 2
+text = "Gate
+"
+
+[node name="gatebutton" type="Button" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=356915230]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="holdlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=1673273530]
+layout_mode = 2
+text = "Hold
+"
+
+[node name="holdbutton" type="Button" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=1042229573]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=233257935]
 mesh = SubResource("SphereMesh_wcwec")
 
@@ -146,3 +174,4 @@ environment = SubResource("Environment_ei00m")
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/amp box/amp slider" to="Area3D/AudioNodeTest" method="_on_amp_slider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/freq box/freq slider" to="Area3D/AudioNodeTest" method="_on_freq_slider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/detune box/detune slider" to="Area3D/AudioNodeTest" method="_on_detune_slider_value_changed"]
+[connection signal="toggled" from="CharacterBody3D/Camera3D/Container/detune box2/powerbutton" to="Area3D/AudioNodeTest" method="_on_powerbutton_toggled"]

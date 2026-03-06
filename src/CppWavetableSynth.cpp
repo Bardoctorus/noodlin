@@ -6,6 +6,7 @@
 
 
 
+
  void CppWavetableSynth::_bind_methods(){
     godot::ClassDB::bind_method(D_METHOD("handleInput", "message"), &CppWavetableSynth::handleInput);
     godot::ClassDB::bind_method(D_METHOD("updateFrequency", "_frequency"), &CppWavetableSynth::updateFrequency);
@@ -24,7 +25,9 @@
 
 
 CppWavetableSynth::CppWavetableSynth(){
-    
+    adsr = ADSR();
+    adsr.setAttackRate(44100.0 * 0.5);
+    adsr.setReleaseRate(44100.0);
 };
 
 
@@ -92,6 +95,7 @@ void CppWavetableSynth::handleInput(bool message){
 
         Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
         hop->start();
+        
         }         
     }
     else{

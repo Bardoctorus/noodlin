@@ -27,7 +27,6 @@ func _ready():
 	csynth.initOscillators(samplerate, Frequency, 1 ,NumberOfOscillators, DetuneAmount)
 	play()
 	playback = get_stream_playback()
-	csynth.handleInput(true)
 	prevtime = 0
 	pass
 	
@@ -56,4 +55,9 @@ func _on_freq_slider_value_changed(value):
 func _on_detune_slider_value_changed(value):
 	%detunevalue.text = str(value)
 	csynth.updateDetune(value)
+	pass # Replace with function body.
+
+
+func _on_powerbutton_toggled(toggled_on):
+	csynth.handleInput(toggled_on)
 	pass # Replace with function body.
