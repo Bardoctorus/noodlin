@@ -30,7 +30,11 @@ CppWavetableOscillator::CppWavetableOscillator()
 
 float CppWavetableOscillator::getSample(){
     if (isPlaying == true){
-        index = fmodf(index, (float)waveTable.size());
+        float prevIndex = index;
+        index = godot::Math::fmod(index, (float)waveTable.size());
+       
+        
+        
         float sample = interpolateLiniarly();
         index += increment;
         return sample;
@@ -42,7 +46,7 @@ float CppWavetableOscillator::getSample(){
 
 void CppWavetableOscillator::_init(Array _waveTable, float _sampleRate, float _frequency, float _detuneMult){
     waveTable = _waveTable;
-    print_line(waveTable);
+    //print_line(waveTable);
     sampleRate = _sampleRate;
     frequency = _frequency;
     isPlaying = false;
@@ -52,7 +56,7 @@ void CppWavetableOscillator::_init(Array _waveTable, float _sampleRate, float _f
 void CppWavetableOscillator::setFrequency(float _frequency){
     float newFrequency = _frequency * detune;
     frequency = newFrequency;
-    print_line("New freq: ",newFrequency);
+    //print_line("New freq: ",newFrequency);
     //frequency = _frequency;
     setIncrement(frequency);
 }
@@ -63,6 +67,7 @@ float CppWavetableOscillator::getFrequency() const{
 
 void CppWavetableOscillator::setIncrement(float _frequency){
     increment = _frequency * ((float)waveTable.size() /sampleRate);
+    print_line("Increment: ", increment, " Index: ", index);
 }
 
 float CppWavetableOscillator::getIncrement() const {
@@ -72,7 +77,7 @@ float CppWavetableOscillator::getIncrement() const {
 void CppWavetableOscillator::start(){
     setFrequency(frequency);
     isPlaying = true;
-    print_line("Playing with freq ", frequency);
+    //print_line("Playing with freq ", frequency);
 }
 
 void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmount){
@@ -81,16 +86,16 @@ void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmo
     float oscnumplus1 = oscNum+1;
     if(oscCount % 2 == 0){
         middle = oscCount/2 + 0.5f;
-        print_line("even middle: ", middle);
+        //print_line("even middle: ", middle);
     }
     else{
         middle = ceilf((float)oscCount/2);
-        print_line("odd middle: ", middle);
+        //print_line("odd middle: ", middle);
 
     }
     factor = oscnumplus1 - middle;
-    detune = 1 + factor * detuneAmount;
-    print_line("Osc " , oscNum , " detune: " , detune);
+    detune = fabs(1 + factor * detuneAmount);
+    print_line("Osc: " , oscNum , " middle: ",middle, " factor: ", factor, " detune amount: ", detuneAmount, " detune: " , detune);
     // if odd:
     // middle = ceil(oscCount/2)
     // else middle = oscCount/2 + 0.5
@@ -122,6 +127,10 @@ float CppWavetableOscillator::interpolateLiniarly(){
     //int nextIndex = ceil((int)index % waveTable.size());
     int nextIndex = (int)ceil(index) % waveTable.size();
     float nextIndexWeight = index - (float)truncatedIndex;
+    if(index<0){
+    print_line("Index: ", index, " truncated index: ", truncatedIndex, " next index: ", nextIndex , " next index weight: ", nextIndexWeight);
+    }
+
     float nextWave = waveTable[nextIndex];
     float trucWave = waveTable[truncatedIndex];
     return nextWave * nextIndexWeight + (1 - nextIndexWeight) * trucWave;

@@ -69,7 +69,7 @@ void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, 
         thosk.instantiate();
         thosk->_init(waveTable, _sampleRate, _startingFreq, _detuneMult);
         thosk->setDetune(i, numOscillators,_detuneMult);
-        print_line("Oscillator instantiated with id: ",thosk->get_instance_id());
+       // print_line("Oscillator instantiated with id: ",thosk->get_instance_id());
         oscillators.push_back(thosk);
 
     }
@@ -103,7 +103,7 @@ void CppWavetableSynth::handleInput(bool message){
     }
 }
 void CppWavetableSynth::updateFrequency(float _frequency){
-    print_line("update freq: %s", _frequency);
+    //print_line("update freq: %s", _frequency);
     for (size_t i = 0; i < oscillators.size(); i++)
         {
             Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
@@ -113,7 +113,7 @@ void CppWavetableSynth::updateFrequency(float _frequency){
 }
 
 void CppWavetableSynth::updateDetune(float _detuneAmount) {
-    print_line("update detune: %s", _detuneAmount);
+    //print_line("update detune: %s", _detuneAmount);
     for (size_t i = 0; i < oscillators.size(); i++)
         {
             Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
