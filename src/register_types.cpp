@@ -11,6 +11,8 @@
 #include "CppWavetableSynth.h"
 #include "CppWavetableOscillator.h"
 #include "ADSR.h"
+#include "LFO.h"
+
 
 
 
@@ -27,6 +29,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	GDREGISTER_CLASS(CppWavetableSynth);
 	GDREGISTER_CLASS(CppWavetableOscillator);
 	GDREGISTER_CLASS(ADSR);
+	GDREGISTER_CLASS(LFO);
 
 }
 

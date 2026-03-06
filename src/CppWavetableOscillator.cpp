@@ -67,7 +67,7 @@ float CppWavetableOscillator::getFrequency() const{
 
 void CppWavetableOscillator::setIncrement(float _frequency){
     increment = _frequency * ((float)waveTable.size() /sampleRate);
-    print_line("Increment: ", increment, " Index: ", index);
+    //print_line("Increment: ", increment, " Index: ", index);
 }
 
 float CppWavetableOscillator::getIncrement() const {
@@ -128,7 +128,7 @@ float CppWavetableOscillator::interpolateLiniarly(){
     int nextIndex = (int)ceil(index) % waveTable.size();
     float nextIndexWeight = index - (float)truncatedIndex;
     if(index<0){
-    print_line("Index: ", index, " truncated index: ", truncatedIndex, " next index: ", nextIndex , " next index weight: ", nextIndexWeight);
+   // print_line("Index: ", index, " truncated index: ", truncatedIndex, " next index: ", nextIndex , " next index weight: ", nextIndexWeight);
     }
 
     float nextWave = waveTable[nextIndex];

@@ -20,16 +20,17 @@
 //  1.03  2020-04-08  njr   changed float to double; large target ratio and rate resulted in exp returning 1 in calcCoef
 //
 
-#ifndef ADRS_h
-#define ADRS_h
+#pragma once
 
 #include "godot_cpp/classes/wrapped.hpp"
-#include "godot_cpp/classes/node.hpp"
+#include "godot_cpp/classes/ref_counted.hpp"
 
 
 using namespace godot;
 
-class ADSR : public Node {
+class ADSR : public RefCounted {
+    GDCLASS(ADSR, RefCounted)
+
 public:
 	ADSR(void);
 	~ADSR(void);
@@ -68,7 +69,7 @@ protected:
     double attackBase;
     double decayBase;
     double releaseBase;
- 
+    static void _bind_methods();
     double calcCoef(double rate, double targetRatio);
 };
 
@@ -122,4 +123,4 @@ inline double ADSR::getOutput() {
 	return output;
 }
 
-#endif
+

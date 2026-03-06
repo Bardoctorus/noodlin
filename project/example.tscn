@@ -48,7 +48,7 @@ stream = SubResource("AudioStreamGenerator_8lvy3")
 volume_db = -12.711
 autoplay = true
 script = ExtResource("3_8lvy3")
-NumberOfOscillators = 4
+NumberOfOscillators = 5
 DetuneAmount = 0.0
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2106732240]
@@ -118,33 +118,141 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="detune box2" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=1882431919]
+[node name="buttonbox" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=1882431919]
 layout_mode = 2
 
-[node name="powerlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=1218734905]
+[node name="powerlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/buttonbox" unique_id=1218734905]
 layout_mode = 2
 text = "Power"
 
-[node name="powerbutton" type="CheckButton" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=678856948]
+[node name="powerbutton" type="CheckButton" parent="CharacterBody3D/Camera3D/Container/buttonbox" unique_id=678856948]
 layout_mode = 2
 
-[node name="gatelabel" type="Label" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=750233112]
+[node name="gatelabel" type="Label" parent="CharacterBody3D/Camera3D/Container/buttonbox" unique_id=750233112]
 layout_mode = 2
 text = "Gate
 "
 
-[node name="gatebutton" type="Button" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=356915230]
+[node name="gatebutton" type="Button" parent="CharacterBody3D/Camera3D/Container/buttonbox" unique_id=356915230]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="holdlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=1673273530]
+[node name="holdlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/buttonbox" unique_id=1673273530]
 layout_mode = 2
 text = "Hold
 "
 
-[node name="holdbutton" type="Button" parent="CharacterBody3D/Camera3D/Container/detune box2" unique_id=1042229573]
+[node name="holdbutton" type="CheckButton" parent="CharacterBody3D/Camera3D/Container/buttonbox" unique_id=670624400]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+
+[node name="adsrbox" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=690492726]
+layout_mode = 2
+
+[node name="attacklabel" type="Label" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=938856542]
+layout_mode = 2
+text = "A"
+
+[node name="attackslider" type="VSlider" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=853821892]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+max_value = 3.0
+step = 0.01
+value = 0.5
+
+[node name="attackval" type="Label" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=1953161744]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "0.04"
+
+[node name="decaylabel" type="Label" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=1024738278]
+layout_mode = 2
+text = "D"
+
+[node name="decayslider" type="VSlider" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=244124353]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+max_value = 3.0
+step = 0.01
+value = 0.37
+
+[node name="decayval" type="Label" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=402109720]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "0.04"
+
+[node name="sustainlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=1485245628]
+layout_mode = 2
+text = "S"
+
+[node name="sustainslider" type="VSlider" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=112427150]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="sustainval" type="Label" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=767990952]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "0.04"
+
+[node name="releaselabel" type="Label" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=1418378796]
+layout_mode = 2
+text = "R"
+
+[node name="releaseslider" type="VSlider" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=2033387503]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+max_value = 5.0
+step = 0.01
+value = 0.5
+
+[node name="releaseval" type="Label" parent="CharacterBody3D/Camera3D/Container/adsrbox" unique_id=586298464]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "0.04"
+
+[node name="lfobox" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=1352806102]
+layout_mode = 2
+
+[node name="lfoamountlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=344690990]
+layout_mode = 2
+text = "LFO Amount"
+
+[node name="lfoamountslider" type="VSlider" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=32812153]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.22
+
+[node name="lfoamountval" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=2107963447]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "0.01"
+
+[node name="lfofreqlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1664046159]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LFO Freq"
+
+[node name="lfofreqslider" type="VSlider" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1814094976]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+step = 0.01
+value = 3.36
+
+[node name="lfofreqval" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1521184853]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "0.04"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=233257935]
 mesh = SubResource("SphereMesh_wcwec")
@@ -174,6 +282,13 @@ environment = SubResource("Environment_ei00m")
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/amp box/amp slider" to="Area3D/AudioNodeTest" method="_on_amp_slider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/freq box/freq slider" to="Area3D/AudioNodeTest" method="_on_freq_slider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/detune box/detune slider" to="Area3D/AudioNodeTest" method="_on_detune_slider_value_changed"]
-[connection signal="toggled" from="CharacterBody3D/Camera3D/Container/detune box2/powerbutton" to="Area3D/AudioNodeTest" method="_on_powerbutton_toggled"]
-[connection signal="button_down" from="CharacterBody3D/Camera3D/Container/detune box2/gatebutton" to="Area3D/AudioNodeTest" method="_on_gatebutton_button_down"]
-[connection signal="button_up" from="CharacterBody3D/Camera3D/Container/detune box2/gatebutton" to="Area3D/AudioNodeTest" method="_on_gatebutton_button_up"]
+[connection signal="toggled" from="CharacterBody3D/Camera3D/Container/buttonbox/powerbutton" to="Area3D/AudioNodeTest" method="_on_powerbutton_toggled"]
+[connection signal="button_down" from="CharacterBody3D/Camera3D/Container/buttonbox/gatebutton" to="Area3D/AudioNodeTest" method="_on_gatebutton_button_down"]
+[connection signal="button_up" from="CharacterBody3D/Camera3D/Container/buttonbox/gatebutton" to="Area3D/AudioNodeTest" method="_on_gatebutton_button_up"]
+[connection signal="toggled" from="CharacterBody3D/Camera3D/Container/buttonbox/holdbutton" to="Area3D/AudioNodeTest" method="_on_holdbutton_toggled"]
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/adsrbox/attackslider" to="Area3D/AudioNodeTest" method="_on_attackslider_value_changed"]
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/adsrbox/decayslider" to="Area3D/AudioNodeTest" method="_on_decayslider_value_changed"]
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/adsrbox/sustainslider" to="Area3D/AudioNodeTest" method="_on_sustainslider_value_changed"]
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/adsrbox/releaseslider" to="Area3D/AudioNodeTest" method="_on_releaseslider_value_changed"]
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/lfobox/lfoamountslider" to="Area3D/AudioNodeTest" method="_on_lfoamountslider_value_changed"]
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/lfobox/lfofreqslider" to="Area3D/AudioNodeTest" method="_on_lfofreqslider_value_changed"]

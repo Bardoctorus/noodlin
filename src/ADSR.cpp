@@ -21,8 +21,18 @@
 //
 
 #include "ADSR.h"
-#include <math.h>
+//#include <math.h>
+void ADSR::_bind_methods() {
+    godot::ClassDB::bind_method(D_METHOD("setAttackRate", "rate"),&ADSR::setAttackRate);
+    godot::ClassDB::bind_method(D_METHOD("setDecayRate", "rate"),&ADSR::setDecayRate);
+    godot::ClassDB::bind_method(D_METHOD("setReleaseRate", "rate"),&ADSR::setReleaseRate);
+    godot::ClassDB::bind_method(D_METHOD("calcCoef", "rate","targetRatio"),&ADSR::calcCoef);
+    godot::ClassDB::bind_method(D_METHOD("setSustainLevel", "level"),&ADSR::setSustainLevel);
+    godot::ClassDB::bind_method(D_METHOD("setTargetRatioA", "targetRatio"),&ADSR::setTargetRatioA);
+    godot::ClassDB::bind_method(D_METHOD("setTargetRatioDR", "targetRatio"),&ADSR::setTargetRatioDR);
 
+
+}
 
 ADSR::ADSR(void) {
     reset();
@@ -56,7 +66,7 @@ void ADSR::setReleaseRate(double rate) {
 }
 
 double ADSR::calcCoef(double rate, double targetRatio) {
-    return (rate <= 0) ? 0.0 : exp(-log((1.0 + targetRatio) / targetRatio) / rate);
+	return (rate <= 0) ? 0.0 : exp(-log((1.0 + targetRatio) / targetRatio) / rate);
 }
 
 void ADSR::setSustainLevel(double level) {
