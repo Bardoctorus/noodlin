@@ -4,11 +4,11 @@
 [ext_resource type="Script" uid="uid://rvu3xc0fcrmu" path="res://audio_node_test.gd" id="3_8lvy3"]
 [ext_resource type="Script" uid="uid://cte4jalives85" path="res://addons/sk_fly_camera/src/fly_camera.gd" id="3_wcwec"]
 
+[sub_resource type="QuadMesh" id="QuadMesh_8lvy3"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_n51mc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lvy3"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_8lvy3"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_8lvy3"]
 buffer_length = 0.02
@@ -32,22 +32,24 @@ sky = SubResource("Sky_wcwec")
 [node name="Meep" type="Node" unique_id=365007638]
 script = ExtResource("1_jdh55")
 
+[node name="floor" type="MeshInstance3D" parent="." unique_id=1679639949]
+transform = Transform3D(50, 0, 0, 0, -2.1855694e-06, 50, 0, -50, -2.1855694e-06, 0, -2.255, 0)
+mesh = SubResource("QuadMesh_8lvy3")
+skeleton = NodePath("../Area3D")
+
 [node name="Area3D" type="Area3D" parent="." unique_id=87246389]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=313065190]
 mesh = SubResource("BoxMesh_n51mc")
 surface_material_override/0 = SubResource("StandardMaterial3D_8lvy3")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3D" unique_id=1679639949]
-transform = Transform3D(50, 0, 0, 0, -2.1855694e-06, 50, 0, -50, -2.1855694e-06, 0, -2.255, 0)
-mesh = SubResource("QuadMesh_8lvy3")
-
 [node name="AudioNodeTest" type="AudioNodeTest" parent="Area3D" unique_id=1077734283]
 stream = SubResource("AudioStreamGenerator_8lvy3")
+volume_db = -12.711
 autoplay = true
 script = ExtResource("3_8lvy3")
 NumberOfOscillators = 4
-DetuneAmount = 0.047
+DetuneAmount = 0.514
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2106732240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.9969487)
@@ -55,6 +57,66 @@ script = ExtResource("3_wcwec")
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1568951284]
 transform = Transform3D(-0.9991381, 0, -0.04150953, 0, 1, 0, 0.04150953, 0, -0.9991381, 0, 0, 0)
+
+[node name="Container" type="VBoxContainer" parent="CharacterBody3D/Camera3D" unique_id=1363764772]
+offset_right = 336.0
+offset_bottom = 50.0
+
+[node name="amp box" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=34401460]
+layout_mode = 2
+
+[node name="amp label" type="Label" parent="CharacterBody3D/Camera3D/Container/amp box" unique_id=937978730]
+layout_mode = 2
+text = "vol        "
+
+[node name="amp slider" type="HSlider" parent="CharacterBody3D/Camera3D/Container/amp box" unique_id=1072801276]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="ampvalue" type="Label" parent="CharacterBody3D/Camera3D/Container/amp box" unique_id=308965880]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.04"
+
+[node name="freq box" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=1447585104]
+layout_mode = 2
+
+[node name="freq label" type="Label" parent="CharacterBody3D/Camera3D/Container/freq box" unique_id=1550427799]
+layout_mode = 2
+text = "freq      "
+
+[node name="freq slider" type="HSlider" parent="CharacterBody3D/Camera3D/Container/freq box" unique_id=887702898]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+min_value = 40.0
+max_value = 2000.0
+value = 440.0
+
+[node name="freqvalue" type="Label" parent="CharacterBody3D/Camera3D/Container/freq box" unique_id=1366557785]
+unique_name_in_owner = true
+layout_mode = 2
+text = "2000"
+
+[node name="detune box" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=753273168]
+layout_mode = 2
+
+[node name="detune label" type="Label" parent="CharacterBody3D/Camera3D/Container/detune box" unique_id=1206898733]
+layout_mode = 2
+text = "detune"
+
+[node name="detune slider" type="HSlider" parent="CharacterBody3D/Camera3D/Container/detune box" unique_id=1794143306]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+max_value = 2.0
+step = 0.01
+
+[node name="detunevalue" type="Label" parent="CharacterBody3D/Camera3D/Container/detune box" unique_id=963360244]
+unique_name_in_owner = true
+layout_mode = 2
+text = "4.5"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=233257935]
 mesh = SubResource("SphereMesh_wcwec")
@@ -80,3 +142,7 @@ shadow_blur = 10.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1643210846]
 environment = SubResource("Environment_ei00m")
+
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/amp box/amp slider" to="Area3D/AudioNodeTest" method="_on_amp_slider_value_changed"]
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/freq box/freq slider" to="Area3D/AudioNodeTest" method="_on_freq_slider_value_changed"]
+[connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/detune box/detune slider" to="Area3D/AudioNodeTest" method="_on_detune_slider_value_changed"]

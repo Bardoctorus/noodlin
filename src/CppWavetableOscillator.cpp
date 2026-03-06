@@ -50,7 +50,10 @@ void CppWavetableOscillator::_init(Array _waveTable, float _sampleRate, float _f
 }
 
 void CppWavetableOscillator::setFrequency(float _frequency){
-    frequency = ceilf(_frequency * detune);
+    float newFrequency = _frequency * detune;
+    frequency = newFrequency;
+    print_line("New freq: ",newFrequency);
+    //frequency = _frequency;
     setIncrement(frequency);
 }
 
@@ -73,8 +76,8 @@ void CppWavetableOscillator::start(){
 }
 
 void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmount){
-    float middle;
-    float factor;
+    float middle=0.0f;
+    float factor=0.0f;
     float oscnumplus1 = oscNum+1;
     if(oscCount % 2 == 0){
         middle = oscCount/2 + 0.5f;
@@ -86,7 +89,7 @@ void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmo
 
     }
     factor = oscnumplus1 - middle;
-    detune = 1 + (factor/10) * detuneAmount;
+    detune = 1 + factor * detuneAmount;
     print_line("Osc " , oscNum , " detune: " , detune);
     // if odd:
     // middle = ceil(oscCount/2)
@@ -96,6 +99,7 @@ void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmo
     // detune = detuneAmount * factor
     
 }
+
 
 
 void CppWavetableOscillator::update(float _frequency){

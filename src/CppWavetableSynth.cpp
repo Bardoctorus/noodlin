@@ -9,6 +9,9 @@
  void CppWavetableSynth::_bind_methods(){
     godot::ClassDB::bind_method(D_METHOD("handleInput", "message"), &CppWavetableSynth::handleInput);
     godot::ClassDB::bind_method(D_METHOD("updateFrequency", "_frequency"), &CppWavetableSynth::updateFrequency);
+    godot::ClassDB::bind_method(D_METHOD("updateDetune", "_detuneAmount"), &CppWavetableSynth::updateDetune);
+    godot::ClassDB::bind_method(D_METHOD("updateAmplitude", "_amplitude"), &CppWavetableSynth::updateAmplitude);
+
     godot::ClassDB::bind_method(D_METHOD("render", "playback"), &CppWavetableSynth::render);
 
 
@@ -72,8 +75,8 @@ void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, 
     }
 
 
-        osc1 = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[0]));
-       osc2 = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[1]));
+       amplitude = 0.5f;
+       centerFreq = _startingFreq;
 
 
 }
@@ -82,27 +85,14 @@ void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, 
 
 
 void CppWavetableSynth::handleInput(bool message){
-
-    
-    // for (size_t i = 0; i < oscillators.size(); i++)
-    // {
-
-    //     Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
-    //     print_line(hop->get_instance_id());
-    // }
-    
-    
     if (message == true){
-       
-            
+                 
        for (size_t i = 0; i < oscillators.size(); i++)
-    {
+        {
 
         Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
         hop->start();
-    }
-
-            
+        }         
     }
     else{
         for (size_t i = 0; i < oscillators.size(); i++)
@@ -117,11 +107,25 @@ void CppWavetableSynth::updateFrequency(float _frequency){
     for (size_t i = 0; i < oscillators.size(); i++)
         {
             Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
-            hop->update(_frequency);
+            centerFreq = _frequency;
+            hop->update(centerFreq);
         }
 }
 
+void CppWavetableSynth::updateDetune(float _detuneAmount) {
+    print_line("update detune: %s", _detuneAmount);
+    for (size_t i = 0; i < oscillators.size(); i++)
+        {
+            Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+            hop->setDetune(i, oscillators.size(),_detuneAmount);
+            
+            hop->update(centerFreq);
+        }
+}
 
+void CppWavetableSynth::updateAmplitude(float _amplitude) {
+    amplitude = _amplitude;
+}
 
 void CppWavetableSynth::render(Ref<AudioStreamGeneratorPlayback> playback){
     // This needs thinking about differently to make sure it's always volume safe
@@ -137,13 +141,10 @@ void CppWavetableSynth::render(Ref<AudioStreamGeneratorPlayback> playback){
         
             if (hop->currentlyPlaying())
             {
-                sample += hop->getSample();   
+                sample += hop->getSample() * amplitude;   
             }
         }
-        // can this fuck up
 
-        // sample += osc1->getSample();
-        // sample += osc2->getSample();
         buffer.push_back(Vector2(sample, sample));
     }
     playback->push_buffer(buffer);
