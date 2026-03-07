@@ -11,7 +11,7 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lvy3"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_8lvy3"]
-buffer_length = 0.02
+buffer_length = 0.03
 
 [sub_resource type="SphereMesh" id="SphereMesh_wcwec"]
 
@@ -48,9 +48,9 @@ stream = SubResource("AudioStreamGenerator_8lvy3")
 volume_db = -12.711
 autoplay = true
 script = ExtResource("3_8lvy3")
-NumberOfOscillators = 5
+NumberOfOscillators = 2
 DetuneAmount = 0.0
-TableType = 2
+TableType = 3
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2106732240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.9969487)
@@ -229,9 +229,9 @@ text = "LFO Amount"
 [node name="lfoamountslider" type="VSlider" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=32812153]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-max_value = 1.0
+max_value = 0.1
 step = 0.01
-value = 0.22
+value = 0.1
 
 [node name="lfoamountval" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=2107963447]
 unique_name_in_owner = true
@@ -244,16 +244,26 @@ layout_mode = 2
 text = "LFO Freq"
 
 [node name="lfofreqslider" type="VSlider" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1814094976]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+max_value = 5.0
 step = 0.01
-value = 3.36
+value = 0.1
 
 [node name="lfofreqval" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1521184853]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-text = "0.04"
+text = "0.1"
+
+[node name="lfomultlabel" type="Label" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1622245786]
+unique_name_in_owner = true
+layout_mode = 2
+text = "4x"
+
+[node name="lfoxmultbutton" type="CheckButton" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1853439046]
+layout_mode = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=233257935]
 mesh = SubResource("SphereMesh_wcwec")
@@ -293,3 +303,4 @@ environment = SubResource("Environment_ei00m")
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/adsrbox/releaseslider" to="Area3D/AudioNodeTest" method="_on_releaseslider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/lfobox/lfoamountslider" to="Area3D/AudioNodeTest" method="_on_lfoamountslider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/lfobox/lfofreqslider" to="Area3D/AudioNodeTest" method="_on_lfofreqslider_value_changed"]
+[connection signal="toggled" from="CharacterBody3D/Camera3D/Container/lfobox/lfoxmultbutton" to="Area3D/AudioNodeTest" method="_on_lfox_4_button_toggled"]

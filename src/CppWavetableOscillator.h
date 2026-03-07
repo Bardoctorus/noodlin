@@ -28,6 +28,7 @@ class CppWavetableOscillator : public RefCounted {
         void _init(Array _waveTable, float _sampleRate, float _frequency, float _detuneMult);
         bool currentlyPlaying();
         void setDetune(int oscNum, int oscCount, float detuneAmount);
+        void setLfoFreqOffset(float amount);
     private:
         Array waveTable;
         float sampleRate;
@@ -36,6 +37,7 @@ class CppWavetableOscillator : public RefCounted {
         float frequency;
         bool isPlaying;
         float detune;
+        float lfoFreqOffset;
         float detuneMultiplyer;
 
 

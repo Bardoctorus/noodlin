@@ -6,7 +6,8 @@ var nowtime
 var ms_elapsed
 var seconds_alive = 0
 var thisName
-
+@export var lfomultiplier: int = 20
+var lfomultactive: bool
 var util = Util.new()
 
 #@export var WavetableType: Util.WaveTables
@@ -21,7 +22,7 @@ var playback
 
 func _ready():
 	
-	
+	%lfomultlabel.text = str("x",lfomultiplier)
 	#wavetable = util.fillWaveTable(WavetableType)
 	#print(wavetable)
 	
@@ -78,9 +79,21 @@ func _on_releaseslider_value_changed(value):
 
 func _on_lfoamountslider_value_changed(value):
 	%lfoamountval.text = str(value)
+	
 	csynth.updateLfoAmount(value)
 
 
 func _on_lfofreqslider_value_changed(value):
+	if lfomultactive:
+		value*=lfomultiplier
+	print("from slider: ", lfomultactive)
 	%lfofreqval.text = str(value)
 	csynth.updateLfoFrequency(value)
+
+
+func _on_lfox_4_button_toggled(toggled_on):
+	lfomultactive = toggled_on
+	print(lfomultactive)
+	var ting = %lfofreqslider.value
+	_on_lfofreqslider_value_changed(ting)
+	

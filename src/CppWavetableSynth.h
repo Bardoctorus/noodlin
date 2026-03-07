@@ -30,6 +30,8 @@ class CppWavetableSynth: public RefCounted {
         void updateLfoFrequency(float _frequency);
 
         void updateDetune(float _detuneAmount);
+        
+
         void updateAmplitude(float _amplitude);
         void updateLfoAmount(float _amplitude);
         void render(Ref<AudioStreamGeneratorPlayback> playback);
@@ -51,6 +53,9 @@ class CppWavetableSynth: public RefCounted {
         float lfoAmount;
         float centerFreq;
         Array oscillators;
+
+        int lfoUpdate;
+        int lfoGap;
         
 
 };

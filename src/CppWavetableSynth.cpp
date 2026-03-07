@@ -38,6 +38,8 @@ CppWavetableSynth::CppWavetableSynth(){
     adsr->setDecayRate(44100.0 * 0.5);
 
     adsr->setReleaseRate(44100.0);
+    lfoGap = 44100;
+    lfoUpdate = lfoGap;
 
 };
 
@@ -46,6 +48,8 @@ CppWavetableSynth::CppWavetableSynth(){
 
 
 void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, int type, int numOscillators, float _detuneMult) {
+    //this sucks - we need to gen all tables and store, then pass in types for osc + lfo
+    // that way you can have mixed oscillators, interesting LFOs. Make it modular.
     Array waveTable;
     for(int i = 0; i < WAVETABLE_LENGTH; ++i){
     float value;
@@ -94,8 +98,9 @@ void CppWavetableSynth::initOscillators(float _sampleRate, float _startingFreq, 
        lfoAmount = 0.1f;
 
        lfo.instantiate();
+       
        Array lfotable = waveTable.duplicate(true);
-       lfo->_init(lfotable, _sampleRate, 30.0);
+       lfo->_init(lfotable, _sampleRate, 3.0);
 
 
 }
@@ -119,19 +124,25 @@ void CppWavetableSynth::updateRelease(float val) {
 
 void CppWavetableSynth::isPlaying(bool message){
     if (message == true){
-        lfo->start();     
+             
        for (size_t i = 0; i < oscillators.size(); i++)
         {
 
         Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
         hop->start();
-        }         
+        }
+        lfo->start();         
     }
     else{
         for (size_t i = 0; i < oscillators.size(); i++)
         {
-            lfo->stop();
+            
+            
             Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
+            // this lfo set is a bit pointless, the synth is stopping straight after.
+            // this is more a reminder that the LFO needs to reset it's amount before it ever stops
+            hop->setLfoFreqOffset(1.0);
+            lfo->stop();
             hop->stop();
         }
     }
@@ -151,8 +162,10 @@ void CppWavetableSynth::updateFrequency(float _frequency) {
 }
 
 void CppWavetableSynth::updateLfoFrequency(float _frequency) {
-    //print_line("update lfo freq: %s", _frequency);
-
+    //LFO error check check point - isn't it better to stop the LFO instead of this hack?
+    if(_frequency <= 0.0){
+        _frequency = 0.001;
+    }
     lfo->update(_frequency);
 }
 
@@ -179,18 +192,34 @@ void CppWavetableSynth::render(Ref<AudioStreamGeneratorPlayback> playback){
     // This needs thinking about differently to make sure it's always volume safe
     
     PackedVector2Array buffer;
-    float lfocalc = centerFreq+lfo->getSample()*lfoAmount;
-    updateFrequency(lfocalc);
+    
+   
     for (int i = 0; i < playback->get_frames_available(); ++i)
     {
+        float lfoChange;
+        //this is a hack upon the other freq hack - maybe check if running as condition instead
+        if(lfo->getFrequency() <= 0.002)
+        {
+            lfoChange = 1.0;
+        }else
+        {
+            lfoChange = (lfo->getSample()*lfoAmount)+1;
+        }
+       
         
         float sample = 0;
         for (size_t i = 0; i < oscillators.size(); i++)
         {
         Ref<CppWavetableOscillator> hop = Ref<CppWavetableOscillator>(Object::cast_to<CppWavetableOscillator>(oscillators[i]));
         
+        
             if (hop->currentlyPlaying())
             {
+                //LFO only works on frequency for now, needs refactoring to add types to LFO for amp (0-1), also able to choose own wave (wavetable gen refactor will fix this)
+
+                //again - this can fail so check if lfo is running and set amount to 1 if not.
+                hop->setLfoFreqOffset(lfoChange);
+                hop->update(centerFreq);
                 sample += hop->getSample();   
             }
         }

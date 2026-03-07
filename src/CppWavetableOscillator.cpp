@@ -11,6 +11,8 @@ void CppWavetableOscillator::_bind_methods(){
 
     godot::ClassDB::bind_method(D_METHOD("getFrequency"), &CppWavetableOscillator::getFrequency);
     godot::ClassDB::bind_method(D_METHOD("setFrequency", "_frequency"), &CppWavetableOscillator::setFrequency);
+    godot::ClassDB::bind_method(D_METHOD("setLfoFreqOffset", "amount"), &CppWavetableOscillator::setLfoFreqOffset);
+
     godot::ClassDB::bind_method(D_METHOD("setDetune", "oscNum","oscCount","detuneAmount"), &CppWavetableOscillator::setDetune);
 
     godot::ClassDB::bind_method(D_METHOD("getIncrement"), &CppWavetableOscillator::getIncrement);
@@ -22,7 +24,7 @@ void CppWavetableOscillator::_bind_methods(){
 
 CppWavetableOscillator::CppWavetableOscillator()
 {
-
+    lfoFreqOffset = 1.0f;
 };
 
 
@@ -54,7 +56,7 @@ void CppWavetableOscillator::_init(Array _waveTable, float _sampleRate, float _f
 }
 
 void CppWavetableOscillator::setFrequency(float _frequency){
-    float newFrequency = _frequency * detune;
+    float newFrequency = _frequency * detune * lfoFreqOffset;
     frequency = newFrequency;
     //print_line("New freq: ",newFrequency);
     //frequency = _frequency;
@@ -96,16 +98,17 @@ void CppWavetableOscillator::setDetune(int oscNum, int oscCount, float detuneAmo
     factor = oscnumplus1 - middle;
     detune = fabs(1 + factor * detuneAmount);
     print_line("Osc: " , oscNum , " middle: ",middle, " factor: ", factor, " detune amount: ", detuneAmount, " detune: " , detune);
-    // if odd:
-    // middle = ceil(oscCount/2)
-    // else middle = oscCount/2 + 0.5
-    // realoscnum = oscnum + 1
-    // factor = realoscnum - middle
-    // detune = detuneAmount * factor
+   
     
 }
 
-
+void CppWavetableOscillator::setLfoFreqOffset(float amount) {
+    if (amount <= 0.0){
+        return;
+    }
+   
+    lfoFreqOffset = amount;
+}
 
 void CppWavetableOscillator::update(float _frequency){
     setFrequency(_frequency);  

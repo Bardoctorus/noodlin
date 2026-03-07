@@ -34,6 +34,7 @@ class LFO : public RefCounted {
         float increment;
         float frequency;
         bool isPlaying;
+     
  
 
 
