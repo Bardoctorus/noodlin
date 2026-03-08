@@ -14,6 +14,15 @@ void WavetableGen::_bind_methods() {
 
 }
 
+WavetableGen::WavetableGen() {
+    wavetableLength = 64;
+}
+
+WavetableGen::~WavetableGen() {
+}
+
+
+//todo make type human readable with enum or define
 Array WavetableGen::createStandardWavetable(int type) {
     Array GeneratedTable;
     for (size_t i = 0; i < wavetableLength; i++)
@@ -24,13 +33,23 @@ Array WavetableGen::createStandardWavetable(int type) {
                 GeneratedTable.append(sine(i));
             break;
             case 1:
+                GeneratedTable.append(sawUp(i));
             break;
             case 2:
+                GeneratedTable.append(sawDown(i));
             break;
             case 3:
+                GeneratedTable.append(square(i));
+            break;
+            case 4:
+                GeneratedTable.append(triangle(i));
             break;
             default:
-            break;
+                GeneratedTable.append(0.0f);
+                if(i == 0){
+                print_line("Unknown standard wavetable type, zeroed table value returned");
+                }
+            
 
         }
     }
@@ -43,19 +62,20 @@ float WavetableGen::sine(int i) {
 
 }
 float WavetableGen::sawUp(int i) {
-    return 0;
+    return  2.0f * ((float)i / wavetableLength) - 1.0f;
+
 
 }
 float WavetableGen::sawDown(int i) {
-    return 0;
+    return 2.0f * ((wavetableLength-(float)i) / wavetableLength) - 1.0f;
 
 }
 float WavetableGen::square(int i) {
-    return 0;
+    return sinf(Math_TAU * ((float)i / wavetableLength)) >= 0.0 ? 1.0:-1.0;
 
 }
 float WavetableGen::triangle(int i) {
-    return 0;
+    return 1 - fabs(((float)i / wavetableLength)-0.5f) * 4;
 
 }
 
@@ -70,3 +90,4 @@ void WavetableGen::setWavetableLength(int length) {
 int WavetableGen::getWavetableLength() const {
     return wavetableLength;
 }
+

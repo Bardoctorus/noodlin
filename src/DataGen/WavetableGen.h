@@ -26,6 +26,8 @@ class WavetableGen : public RefCounted {
 
         void setWavetableLength(int length);
         int getWavetableLength() const;
+        WavetableGen();
+        ~WavetableGen();
 
 
         

@@ -8,9 +8,9 @@ func _ready():
 	print(w.size())
 	print(w)
 	
-	wavet.setWavetableLength(64)
-	w = wavet.createStandardWavetable(0)
-	print(w.size())
-	print(w)
+	for i in range(6):
+		w = wavet.createStandardWavetable(i)
+		print(w.size())
+		print(w)
 
 	pass

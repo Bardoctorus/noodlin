@@ -13,7 +13,9 @@
 #include "ADSR.h"
 #include "LFO.h"
 
-#include "WavetableGen.h"
+#include "DataGen/WavetableGen.h"
+#include "Oscillator/Oscillator.h"
+#include "Controllers/BaseController.h"
 
 
 
@@ -35,6 +37,8 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	GDREGISTER_CLASS(LFO);
 
 	GDREGISTER_CLASS(WavetableGen);
+	GDREGISTER_CLASS(Oscillator);
+	GDREGISTER_CLASS(BaseController);
 
 }
 
