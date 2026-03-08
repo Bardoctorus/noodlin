@@ -50,7 +50,7 @@ class BaseController : public RefCounted {
         float getFrequency() const;
         void setFrequency(float _frequency);
         //this is ugly and prone to fuckups - some kind of key pair thing might be better here
-        void updateModifiers(float _detune = 0.0f, float _lfoRate = 0.0f, float _lfoAmount = 0.0f);
+        void updateModifiers(Dictionary modifiers);
         bool isCurrentlyPlaying() const;
         void start();
         void stop();

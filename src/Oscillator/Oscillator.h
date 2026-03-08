@@ -44,6 +44,7 @@ class Oscillator : public RefCounted {
         float frequency;
         float frequencyMod;
         float amplitude;
+        float amplitudeMod;
         bool isPlaying;
         bool readyToPlay;
 

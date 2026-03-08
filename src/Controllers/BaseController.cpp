@@ -7,7 +7,7 @@ void BaseController::_bind_methods() {
 	godot::ClassDB::bind_method(D_METHOD("setAmplitude", "_amplitude"), &BaseController::setAmplitude);
 	godot::ClassDB::bind_method(D_METHOD("getFrequency"), &BaseController::getFrequency);
 	godot::ClassDB::bind_method(D_METHOD("setFrequency", "_frequency"), &BaseController::setFrequency);
-	godot::ClassDB::bind_method(D_METHOD("updateModifiers", "_detune", "_lfoRate", "_lfoAmount"), &BaseController::updateModifiers);
+	godot::ClassDB::bind_method(D_METHOD("updateModifiers", "modifiers"), &BaseController::updateModifiers);
 	godot::ClassDB::bind_method(D_METHOD("isCurrentlyPlaying"), &BaseController::isCurrentlyPlaying);
 	godot::ClassDB::bind_method(D_METHOD("start"), &BaseController::start);
 	godot::ClassDB::bind_method(D_METHOD("stop"), &BaseController::stop);
@@ -79,7 +79,25 @@ void BaseController::setFrequency(float _frequency) {
 	}
 }
 
-void BaseController::updateModifiers(float _detune, float _lfoRate, float _lfoAmount) {
+void BaseController::updateModifiers(Dictionary modifiers) {
+	
+	Array parameter = modifiers.keys();
+	for (size_t i = 0; i < parameter.size(); i++)
+	{
+		//switch here probably better
+		if (parameter[i] == "DetuneAmount"){
+			print_line("modifiers position " , i , parameter[i],": ",modifiers[parameter[i]]);
+		}
+		if (parameter[i] == "LFOFreq"){
+			print_line("modifiers position " , i , parameter[i],": ",modifiers[parameter[i]]);
+		}
+		if (parameter[i] == "LFOAmount"){
+			print_line("modifiers position " , i , parameter[i],": ",modifiers[parameter[i]]);
+		}
+	}
+	print_line("modifers size: ",modifiers.size());
+	
+	
 }
 
 bool BaseController::isCurrentlyPlaying() const {

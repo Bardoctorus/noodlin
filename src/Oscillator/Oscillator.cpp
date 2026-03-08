@@ -23,7 +23,7 @@ Oscillator::Oscillator() {
 	increment = 0.0f;
 	frequency = 440.0f;
 	frequencyMod = 1.0f;
-    amplitude = 0;
+    amplitude = 1;
 	isPlaying = false;
 }
 
@@ -37,7 +37,7 @@ float Oscillator::getNextSample() {
         index = godot::Math::fmod(index, (float)wavetable.size());
         float sample = interpolateLinearly();
         index += increment;
-        return sample;
+        return sample * amplitude;
        }
 }
 
@@ -60,6 +60,12 @@ float Oscillator::getIncrement() const {
 
 void Oscillator::setAmplitude(float _amplitude) {
     amplitude = _amplitude;
+    if(amplitude > 1.0f){
+        amplitude = 1.0f;
+    }
+    if(amplitude < 0.0f){
+        amplitude =0.0f;
+    }
 }
 
 float Oscillator::getAplitude() const {
