@@ -1,8 +1,9 @@
 extends AudioNodeTest
 
 @export_range(1, 10) var NumberOfOscillators: int
+
 @export_range(40.0,10000.0) var Frequency = 440.0
-@export_enum("Sine", "Sawup", "Sawdown", "square", "triangle") var TableType:int
+@export_enum("Sine", "Sawup", "Sawdown", "Square", "Triangle") var TableType:int
 var samplerate = 44100.0
 var wavetable
 var baseControl := BaseController.new()
@@ -11,6 +12,8 @@ var playback
 @export var LFOFreq = "LFOFreq"
 @export var LFOAmount = "LFOAmount"
 var modify: Dictionary[String,float]
+
+
 
 func _ready():
 
@@ -59,7 +62,8 @@ func _on_gatebutton_button_down():
 func _on_gatebutton_button_up():
 	pass
 	#csynth.gateTriggered(false)
-func _on_holdbutton_toggled(toggled_on):
+func _on_holdbutton_toggled(_toggled_on):
+	
 	pass
 	#csynth.gateTriggered(toggled_on)
 func _on_attackslider_value_changed(value):
@@ -89,7 +93,7 @@ func _on_lfofreqslider_value_changed(value):
 	modify[LFOFreq]=value;
 	baseControl.updateModifiers(modify)
 
-func _on_lfox_4_button_toggled(toggled_on):
+func _on_lfox_4_button_toggled(_toggled_on):
 	#lfomultactive = toggled_on
 	#print(lfomultactive)
 	var ting = %lfofreqslider.value

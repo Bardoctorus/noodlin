@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bkwk40ybs8kgm" path="res://example.gd" id="1_jdh55"]
 [ext_resource type="Script" uid="uid://rvu3xc0fcrmu" path="res://audio_node_test.gd" id="3_8lvy3"]
 [ext_resource type="Script" uid="uid://cte4jalives85" path="res://addons/sk_fly_camera/src/fly_camera.gd" id="3_wcwec"]
+[ext_resource type="PackedScene" uid="uid://b4dgrjklne0hq" path="res://synthdataconfig.tscn" id="4_wcwec"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_8lvy3"]
 
@@ -289,6 +290,8 @@ shadow_blur = 10.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1643210846]
 environment = SubResource("Environment_ei00m")
+
+[node name="Synthdataconfig" parent="." unique_id=515573582 instance=ExtResource("4_wcwec")]
 
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/amp box/amp slider" to="Area3D/AudioNodeTest" method="_on_amp_slider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/freq box/freq slider" to="Area3D/AudioNodeTest" method="_on_freq_slider_value_changed"]

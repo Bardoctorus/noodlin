@@ -1,20 +1,19 @@
 #include "Oscillator.h"
 
 void Oscillator::_bind_methods() {
-    godot::ClassDB::bind_method(D_METHOD("getNextSample"), &Oscillator::getNextSample);
-    godot::ClassDB::bind_method(D_METHOD("setFrequency", "_frequency"), &Oscillator::setFrequency);
-    godot::ClassDB::bind_method(D_METHOD("getFrequency"), &Oscillator::getFrequency);
-    godot::ClassDB::bind_method(D_METHOD("setFrequencyMod", "_frequency"), &Oscillator::setFrequencyMod);
-    godot::ClassDB::bind_method(D_METHOD("getFrequencyMod"), &Oscillator::getFrequencyMod);
-    godot::ClassDB::bind_method(D_METHOD("setIncrement", "_frequency"), &Oscillator::setIncrement);
-    godot::ClassDB::bind_method(D_METHOD("getIncrement"), &Oscillator::getIncrement);
-    godot::ClassDB::bind_method(D_METHOD("start"), &Oscillator::start);
-    godot::ClassDB::bind_method(D_METHOD("stop"), &Oscillator::stop);
-    godot::ClassDB::bind_method(D_METHOD("interpolateLinearly"), &Oscillator::interpolateLinearly);
-    godot::ClassDB::bind_method(D_METHOD("isCurrentlyPlaying"), &Oscillator::isCurrentlyPlaying);
-    godot::ClassDB::bind_method(D_METHOD("isReadyToPlay"), &Oscillator::isReadyToPlay);
-    godot::ClassDB::bind_method(D_METHOD("reset", "_wavetable", "_sampleRate", "_frequency"), &Oscillator::reset);
-
+	godot::ClassDB::bind_method(D_METHOD("getNextSample"), &Oscillator::getNextSample);
+	godot::ClassDB::bind_method(D_METHOD("setFrequency", "_frequency"), &Oscillator::setFrequency);
+	godot::ClassDB::bind_method(D_METHOD("getFrequency"), &Oscillator::getFrequency);
+	godot::ClassDB::bind_method(D_METHOD("setFrequencyMod", "_frequency"), &Oscillator::setFrequencyMod);
+	godot::ClassDB::bind_method(D_METHOD("getFrequencyMod"), &Oscillator::getFrequencyMod);
+	godot::ClassDB::bind_method(D_METHOD("setIncrement", "_frequency"), &Oscillator::setIncrement);
+	godot::ClassDB::bind_method(D_METHOD("getIncrement"), &Oscillator::getIncrement);
+	godot::ClassDB::bind_method(D_METHOD("start"), &Oscillator::start);
+	godot::ClassDB::bind_method(D_METHOD("stop"), &Oscillator::stop);
+	godot::ClassDB::bind_method(D_METHOD("interpolateLinearly"), &Oscillator::interpolateLinearly);
+	godot::ClassDB::bind_method(D_METHOD("isCurrentlyPlaying"), &Oscillator::isCurrentlyPlaying);
+	godot::ClassDB::bind_method(D_METHOD("isReadyToPlay"), &Oscillator::isReadyToPlay);
+	godot::ClassDB::bind_method(D_METHOD("reset", "_wavetable", "_sampleRate", "_frequency"), &Oscillator::reset);
 }
 
 Oscillator::Oscillator() {
@@ -25,7 +24,7 @@ Oscillator::Oscillator() {
 	increment = 0.0f;
 	frequency = 440.0f;
 	frequencyMod = 1.0f;
-    amplitude = 1;
+	amplitude = 1;
 	isPlaying = false;
 }
 
@@ -33,19 +32,20 @@ Oscillator::~Oscillator() {
 }
 
 float Oscillator::getNextSample() {
-     if (isPlaying == false){return 0.0f;}
-     else{
-        float prevIndex = index;
-        index = godot::Math::fmod(index, (float)wavetable.size());
-        float sample = interpolateLinearly();
-        index += increment;
-        return sample * amplitude;
-       }
+	if (isPlaying == false) {
+		return 0.0f;
+	} else {
+		float prevIndex = index;
+		index = godot::Math::fmod(index, (float)wavetable.size());
+		float sample = interpolateLinearly();
+		index += increment;
+		return sample * amplitude;
+	}
 }
 
 void Oscillator::setFrequency(float _frequency) {
-    frequency = _frequency * frequencyMod;
-    setIncrement(frequency);
+	frequency = _frequency * frequencyMod;
+	setIncrement(frequency);
 }
 
 float Oscillator::getFrequency() const {
@@ -53,7 +53,11 @@ float Oscillator::getFrequency() const {
 }
 
 void Oscillator::setFrequencyMod(float _frequencyMod) {
-    frequencyMod = _frequencyMod;
+	if (_frequencyMod <= 0) {
+		return;
+	} else {
+		frequencyMod = _frequencyMod;
+	}
 }
 
 float Oscillator::getFrequencyMod() const {
@@ -61,7 +65,7 @@ float Oscillator::getFrequencyMod() const {
 }
 
 void Oscillator::setIncrement(float _frequency) {
-    increment = _frequency * ((float)wavetable.size() /sampleRate);
+	increment = _frequency * ((float)wavetable.size() / sampleRate);
 }
 
 float Oscillator::getIncrement() const {
@@ -69,13 +73,13 @@ float Oscillator::getIncrement() const {
 }
 
 void Oscillator::setAmplitude(float _amplitude) {
-    amplitude = _amplitude;
-    if(amplitude > 1.0f){
-        amplitude = 1.0f;
-    }
-    if(amplitude < 0.0f){
-        amplitude =0.0f;
-    }
+	amplitude = _amplitude;
+	if (amplitude > 1.0f) {
+		amplitude = 1.0f;
+	}
+	if (amplitude < 0.0f) {
+		amplitude = 0.0f;
+	}
 }
 
 float Oscillator::getAplitude() const {
@@ -83,30 +87,30 @@ float Oscillator::getAplitude() const {
 }
 
 void Oscillator::start() {
-    if(readyToPlay){
-        setFrequency(frequency);
-        isPlaying = true;
-    }else{
-        print_line("Oscillator ", id," not ready to play");
-    }
+	if (readyToPlay) {
+		setFrequency(frequency);
+		isPlaying = true;
+	} else {
+		print_line("Oscillator ", id, " not ready to play");
+	}
 }
 
 void Oscillator::stop() {
-    isPlaying = false;
+	isPlaying = false;
 	index = 0.0f;
 	increment = 0.0f;
 }
 
 float Oscillator::interpolateLinearly() {
 	int truncatedIndex = floor(index);
-    int nextIndex = (int)ceil(index) % wavetable.size();
-    float nextIndexWeight = index - (float)truncatedIndex;
-    float nextWave = wavetable[nextIndex];
-    float trucWave = wavetable[truncatedIndex];
-    return nextWave * nextIndexWeight + (1 - nextIndexWeight) * trucWave;
+	int nextIndex = (int)ceil(index) % wavetable.size();
+	float nextIndexWeight = index - (float)truncatedIndex;
+	float nextWave = wavetable[nextIndex];
+	float trucWave = wavetable[truncatedIndex];
+	return nextWave * nextIndexWeight + (1 - nextIndexWeight) * trucWave;
 }
 
-bool Oscillator::isCurrentlyPlaying() const { 
+bool Oscillator::isCurrentlyPlaying() const {
 	return isPlaying;
 }
 
@@ -115,13 +119,16 @@ bool Oscillator::isReadyToPlay() {
 }
 
 void Oscillator::reset(int _id, Array _wavetable, int _type, float _sampleRate) {
-    stop();
-    readyToPlay = false;
-    id = _id;
-    wavetable = _wavetable;
-    type = _type;
-    sampleRate = _sampleRate;
-    frequency = 440.0f;
-    readyToPlay = true;
-    print_line("osc reset wavetable: ",wavetable);
+	// if we are going to allow sample rate changes we need to check for it here
+	// and remake wavetables
+	// something like if sampleRate != _samplerate newWavetables(_sampleRate)
+	stop();
+	readyToPlay = false;
+	id = _id;
+	wavetable = _wavetable;
+	type = _type;
+	sampleRate = _sampleRate;
+	frequency = 440.0f;
+	readyToPlay = true;
+	print_line("osc reset wavetable: ", wavetable);
 }
