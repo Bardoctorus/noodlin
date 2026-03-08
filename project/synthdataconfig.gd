@@ -7,7 +7,8 @@ extends Node2D
 
 var SampleRate: float = 44100.0
 var BitRate: int = 16
-
+enum WAVETYPE {SINE, SAWUP, SAWDOWN, SQUARE, TRIANGLE}
+@export var Wave: WAVETYPE
 
 var Sine: String = "Sine"
 var SawUp: String = "SawUp"
@@ -21,6 +22,8 @@ var LFOAmount: String = "LFOAmount"
 
 var Voices: Array[String]
 var NumberOfLFOs: int = 1
+
+
 
 func setVoices(voices):
 	for v in voices:

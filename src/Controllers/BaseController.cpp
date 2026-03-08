@@ -2,8 +2,8 @@
 #include "godot_cpp/core/math.hpp"
 
 void BaseController::_bind_methods() {
-	godot::ClassDB::bind_method(D_METHOD("init", "_sampleRate", "_wavetableType", "_numOscillators"), &BaseController::init);
-	godot::ClassDB::bind_method(D_METHOD("update", "_sampleRate", "_wavetableType", "_numOscillators"), &BaseController::update);
+	godot::ClassDB::bind_method(D_METHOD("init", "_sampleRate", "voices"), &BaseController::init);
+	godot::ClassDB::bind_method(D_METHOD("update", "_sampleRate", "voices"), &BaseController::update);
 	godot::ClassDB::bind_method(D_METHOD("getAmplitude"), &BaseController::getAmplitude);
 	godot::ClassDB::bind_method(D_METHOD("setAmplitude", "_amplitude"), &BaseController::setAmplitude);
 	godot::ClassDB::bind_method(D_METHOD("getFrequency"), &BaseController::getFrequency);
@@ -32,7 +32,7 @@ BaseController::BaseController() {
 BaseController::~BaseController() {
 }
 
-void BaseController::init(float _sampleRate, int _wavetableType, int _numOscillators) {
+void BaseController::init(float _sampleRate, Array voices) {
 	//ugly as fuck but testing is testing.
 	//in future init can be more selective over what it actually generates
 	wavetableGen.instantiate();
@@ -43,26 +43,27 @@ void BaseController::init(float _sampleRate, int _wavetableType, int _numOscilla
 	wavetables[Square] = wavetableGen->createStandardWavetable(3);
 	wavetables[Triangle] = wavetableGen->createStandardWavetable(4);
 
-	print_line("gen saw table:", wavetables["SawDown"]);
+	
 
-	for (size_t i = 0; i < _numOscillators; i++) {
+	for (size_t i = 0; i < voices.size(); i++) {
 		Ref<Oscillator> oscInit;
 		oscInit.instantiate();
-		oscInit->reset(i, wavetables[SawDown], _wavetableType, _sampleRate);
+		oscInit->reset(i, wavetables[voices[i]], voices[i], _sampleRate);
 		oscillators.push_back(oscInit);
-		print_line("instantiated osc: ", i);
+		print_line("instantiated osc: ", i, " type: ",voices[i]);
 	}
 }
 
 
-void BaseController::update(float _sampleRate, int _wavetableType, int _numOscillators) {
+void BaseController::update(float _sampleRate, Array voices) {
 	if (currentlyPlaying)
 		stop();
 	oscillators.clear();
-	for (size_t i = 0; i < _numOscillators; i++) {
+	for (size_t i = 0; i < voices.size(); i++) {
 		Ref<Oscillator> oscUpdate;
 		oscUpdate.instantiate();
-		oscUpdate->reset(i, wavetables[Sine], _wavetableType, _sampleRate);
+		oscUpdate->reset(i, wavetables[voices[i]], voices[i], _sampleRate);
+		print_line("Osc ",i+1," new type: ",voices[i]);
 		oscillators.push_back(oscUpdate);
 	}
 	print_line("updated: ", oscillators.size(), " oscillators now");

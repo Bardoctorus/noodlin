@@ -13,12 +13,12 @@ void Oscillator::_bind_methods() {
 	godot::ClassDB::bind_method(D_METHOD("interpolateLinearly"), &Oscillator::interpolateLinearly);
 	godot::ClassDB::bind_method(D_METHOD("isCurrentlyPlaying"), &Oscillator::isCurrentlyPlaying);
 	godot::ClassDB::bind_method(D_METHOD("isReadyToPlay"), &Oscillator::isReadyToPlay);
-	godot::ClassDB::bind_method(D_METHOD("reset", "_wavetable", "_sampleRate", "_frequency"), &Oscillator::reset);
+	godot::ClassDB::bind_method(D_METHOD("reset","_id", "_wavetable", "_type" "_sampleRate"), &Oscillator::reset);
 }
 
 Oscillator::Oscillator() {
 	id = 0;
-	type = 0;
+	type = "";
 	sampleRate = 0.0f;
 	index = 0.0f;
 	increment = 0.0f;
@@ -118,7 +118,7 @@ bool Oscillator::isReadyToPlay() {
 	return readyToPlay;
 }
 
-void Oscillator::reset(int _id, Array _wavetable, int _type, float _sampleRate) {
+void Oscillator::reset(int _id, Array _wavetable, String _type, float _sampleRate) {
 	// if we are going to allow sample rate changes we need to check for it here
 	// and remake wavetables
 	// something like if sampleRate != _samplerate newWavetables(_sampleRate)
@@ -130,5 +130,5 @@ void Oscillator::reset(int _id, Array _wavetable, int _type, float _sampleRate) 
 	sampleRate = _sampleRate;
 	frequency = 440.0f;
 	readyToPlay = true;
-	print_line("osc reset wavetable: ", wavetable);
+	//print_line("osc reset wavetable: ", wavetable);
 }

@@ -31,14 +31,14 @@ class Oscillator : public RefCounted {
         bool isCurrentlyPlaying() const;
         bool isReadyToPlay();
         //refactor this when you have proper types
-        void reset(int _id, Array _waveTable, int _type, float _sampleRate);
+        void reset(int _id, Array _waveTable, String _type, float _sampleRate);
 
 
 
 
     private:
         int id;    
-        int type;
+        String type;
         Array wavetable;
         float sampleRate;
         float index;

@@ -43,9 +43,9 @@ public:
 	//this also needs rethinking from the godot side. It'd be nice to send in a config struct
 	//or I guess refcounted data object that can setup all the wavetables needed and assign them
 	// to the oscillators and LFOs
-	void init(float _sampleRate, int _wavetableType, int _numOscillators);
+	void init(float _sampleRate, Array voices);
 
-	void update(float _sampleRate, int _wavetableType, int _numOscillators);
+	void update(float _sampleRate, Array voices);
 
 	float getAmplitude() const;
 	void setAmplitude(float _amplitude);

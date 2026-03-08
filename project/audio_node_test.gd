@@ -3,7 +3,6 @@ extends AudioNodeTest
 @export_range(1, 10) var NumberOfOscillators: int
 
 @export_range(40.0,10000.0) var Frequency = 440.0
-@export_enum("Sine", "Sawup", "Sawdown", "Square", "Triangle") var TableType:int
 var samplerate = 44100.0
 var wavetable
 var baseControl := BaseController.new()
@@ -13,11 +12,20 @@ var playback
 @export var LFOAmount = "LFOAmount"
 var modify: Dictionary[String,float]
 
-
-
+var Sine: String = "Sine"
+var SawUp: String = "SawUp"
+var SawDown: String = "SawDown"
+var Square: String = "Square"
+var Triangle: String = "Triangle"
+var Voices
+var RandOscs: Array
 func _ready():
-
-	baseControl.init(samplerate,TableType,NumberOfOscillators)
+	Voices = [Sine,SawUp,SawDown,Square,Triangle]
+	for i in randi_range(2,12):
+		RandOscs.push_back(Voices.pick_random())
+	baseControl.init(samplerate,RandOscs)
+	RandOscs.clear()
+	Voices = [Square, Triangle, Square, Triangle,SawDown,SawUp]
 	play()
 	playback = get_stream_playback()
 	pass
@@ -52,7 +60,10 @@ func _on_powerbutton_toggled(toggled_on):
 		pass
 	#csynth.isPlaying(toggled_on)
 func _on_gatebutton_button_down():
-	baseControl.update(samplerate,0,7)
+	RandOscs.clear()
+	for i in randi_range(2,12):
+		RandOscs.push_back(Voices.pick_random())
+	baseControl.update(samplerate,RandOscs)
 	var f = %"freq slider".value
 	_on_freq_slider_value_changed(f)
 		
