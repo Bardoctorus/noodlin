@@ -1,4 +1,5 @@
 #include "BaseController.h"
+#include "godot_cpp/core/math.hpp"
 
 void BaseController::_bind_methods() {
 	godot::ClassDB::bind_method(D_METHOD("init", "_sampleRate", "_wavetableType", "_numOscillators"), &BaseController::init);
@@ -47,16 +48,16 @@ void BaseController::init(float _sampleRate, int _wavetableType, int _numOscilla
 void BaseController::update(float _sampleRate, int _wavetableType, int _numOscillators) {
 	if (currentlyPlaying)
 		stop();
-
-	for (size_t i = 0; i < _numOscillators; i++) {
 		oscillators.clear();
+	for (size_t i = 0; i < _numOscillators; i++) {
+		
 		Ref<Oscillator> oscUpdate;
 		oscUpdate.instantiate();
 		oscUpdate->reset(i, sineWavetable, _wavetableType, _sampleRate);
-        oscillators.push_back(oscUpdate);
+		oscillators.push_back(oscUpdate);
 	}
-    print_line("updated: ",oscillators.size(),"oscillators now");
-    start();
+	print_line("updated: ", oscillators.size(), " oscillators now");
+	start();
 }
 
 float BaseController::getAmplitude() const {
@@ -80,24 +81,28 @@ void BaseController::setFrequency(float _frequency) {
 }
 
 void BaseController::updateModifiers(Dictionary modifiers) {
-	
 	Array parameter = modifiers.keys();
-	for (size_t i = 0; i < parameter.size(); i++)
-	{
+	for (size_t i = 0; i < parameter.size(); i++) {
 		//switch here probably better
-		if (parameter[i] == "DetuneAmount"){
-			print_line("modifiers position " , i , parameter[i],": ",modifiers[parameter[i]]);
+		if (parameter[i] == "DetuneAmount") {
+			print_line("modifiers position ", i," ", parameter[i], ": ", modifiers[parameter[i]]);
+			float detuneAmount = modifiers[parameter[i]];
+			for (size_t i = 0; i < oscillators.size(); i++) {
+				Ref<Oscillator> osc = Ref<Oscillator>(Object::cast_to<Oscillator>(oscillators[i]));
+				float detune = Math::absf(i - ((float)oscillators.size()/2-0.5) * detuneAmount + 1);
+				print_line("detune output value: ", detune);
+				osc->setFrequencyMod(detune);
+			}
 		}
-		if (parameter[i] == "LFOFreq"){
-			print_line("modifiers position " , i , parameter[i],": ",modifiers[parameter[i]]);
+		if (parameter[i] == "LFOFreq") {
+			print_line("modifiers position ", i, parameter[i], ": ", modifiers[parameter[i]]);
 		}
-		if (parameter[i] == "LFOAmount"){
-			print_line("modifiers position " , i , parameter[i],": ",modifiers[parameter[i]]);
+		if (parameter[i] == "LFOAmount") {
+			print_line("modifiers position ", i, parameter[i], ": ", modifiers[parameter[i]]);
 		}
 	}
-	print_line("modifers size: ",modifiers.size());
-	
-	
+	print_line("modifers size: ", modifiers.size());
+	setFrequency(frequency);
 }
 
 bool BaseController::isCurrentlyPlaying() const {

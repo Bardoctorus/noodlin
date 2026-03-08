@@ -4,6 +4,8 @@ void Oscillator::_bind_methods() {
     godot::ClassDB::bind_method(D_METHOD("getNextSample"), &Oscillator::getNextSample);
     godot::ClassDB::bind_method(D_METHOD("setFrequency", "_frequency"), &Oscillator::setFrequency);
     godot::ClassDB::bind_method(D_METHOD("getFrequency"), &Oscillator::getFrequency);
+    godot::ClassDB::bind_method(D_METHOD("setFrequencyMod", "_frequency"), &Oscillator::setFrequencyMod);
+    godot::ClassDB::bind_method(D_METHOD("getFrequencyMod"), &Oscillator::getFrequencyMod);
     godot::ClassDB::bind_method(D_METHOD("setIncrement", "_frequency"), &Oscillator::setIncrement);
     godot::ClassDB::bind_method(D_METHOD("getIncrement"), &Oscillator::getIncrement);
     godot::ClassDB::bind_method(D_METHOD("start"), &Oscillator::start);
@@ -48,6 +50,14 @@ void Oscillator::setFrequency(float _frequency) {
 
 float Oscillator::getFrequency() const {
 	return frequency;
+}
+
+void Oscillator::setFrequencyMod(float _frequencyMod) {
+    frequencyMod = _frequencyMod;
+}
+
+float Oscillator::getFrequencyMod() const {
+	return frequencyMod;
 }
 
 void Oscillator::setIncrement(float _frequency) {

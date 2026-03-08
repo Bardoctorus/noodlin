@@ -10,7 +10,7 @@ var playback
 @export var DetuneAmount = "DetuneAmount"
 @export var LFOFreq = "LFOFreq"
 @export var LFOAmount = "LFOAmount"
-var modify: Dictionary[String,Variant]
+var modify: Dictionary[String,float]
 
 func _ready():
 
@@ -49,7 +49,7 @@ func _on_powerbutton_toggled(toggled_on):
 		pass
 	#csynth.isPlaying(toggled_on)
 func _on_gatebutton_button_down():
-	baseControl.update(samplerate,0,5)
+	baseControl.update(samplerate,0,7)
 	var f = %"freq slider".value
 	_on_freq_slider_value_changed(f)
 		

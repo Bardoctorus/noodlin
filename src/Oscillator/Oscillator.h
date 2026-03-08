@@ -19,6 +19,8 @@ class Oscillator : public RefCounted {
         float getNextSample();
         void setFrequency(float _frequency);
         float getFrequency() const;
+        void setFrequencyMod(float _frequencyMod);
+        float getFrequencyMod() const;
         void setIncrement(float _increment);
         float getIncrement() const;
         void setAmplitude(float _amplitude);
