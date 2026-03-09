@@ -3,10 +3,10 @@ extends AudioNodeTest
 @export_range(1, 10) var NumberOfOscillators: int
 
 @export_range(40.0,10000.0) var Frequency = 440.0
-var samplerate = 44100.0
+var samplerate: float = 44100.0
 var wavetable
 var baseControl := BaseController.new()
-var playback
+var playback: AudioStreamPlayback = null
 @export var DetuneAmount = "DetuneAmount"
 @export var LFOFreq = "LFOFreq"
 @export var LFOAmount = "LFOAmount"
@@ -110,3 +110,12 @@ func _on_lfox_4_button_toggled(_toggled_on):
 	var ting = %lfofreqslider.value
 	_on_lfofreqslider_value_changed(ting)
 	
+
+
+func _on_option_button_item_selected(index):
+	var o = %OptionButton.get_item_text(index)
+	samplerate = float(o)
+	stop()
+	play()
+	print(index, " : ", o)
+	pass # Replace with function body.

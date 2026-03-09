@@ -11,6 +11,8 @@
 
 using namespace godot;
 
+
+
 class BaseController : public RefCounted {
 	GDCLASS(BaseController, RefCounted)
 
@@ -20,6 +22,7 @@ protected:
 	float amplitude;
 	float frequency;
 	bool currentlyPlaying;
+	float sampleRate;
 
 	Array customWavetable;
 	PackedVector2Array buffer;
@@ -35,6 +38,8 @@ protected:
     String LFOFreq;
     String LFOAmount;
 
+	float logMaxPosOutput;
+	float logMaxNegOutput;
 
 public:
 	BaseController();
@@ -49,6 +54,7 @@ public:
 
 	float getAmplitude() const;
 	void setAmplitude(float _amplitude);
+	void logmax (float sample);
 	float getFrequency() const;
 	void setFrequency(float _frequency);
 	//this is ugly and prone to fuckups - some kind of key pair thing might be better here
@@ -56,7 +62,6 @@ public:
 	bool isCurrentlyPlaying() const;
 	void start();
 	void stop();
-
 	void process(Ref<AudioStreamGeneratorPlayback> playback);
 	Ref<WavetableGen> wavetableGen;
 };

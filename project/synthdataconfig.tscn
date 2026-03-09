@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://b4dgrjklne0hq"]
-
-[ext_resource type="Script" uid="uid://djbsr1r40krva" path="res://synthdataconfig.gd" id="1_tjakd"]
-
-[node name="Synthdataconfig" type="Node2D" unique_id=515573582]
-script = ExtResource("1_tjakd")

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cfr377c7lfcpr"]
+
+[ext_resource type="Script" uid="uid://d4k0jrk58555q" path="res://added_osc_details.gd" id="1_ypt6q"]
+
+[node name="AddedOscDetails" type="HBoxContainer" unique_id=1243199373 node_paths=PackedStringArray("OscTypeLabel", "WeightLabel")]
+script = ExtResource("1_ypt6q")
+OscTypeLabel = NodePath("type")
+WeightLabel = NodePath("weight")
+
+[node name="removebutton" type="Button" parent="." unique_id=1480072533]
+layout_mode = 2
+text = " x "
+
+[node name="type" type="Label" parent="." unique_id=1315650490]
+layout_mode = 2
+text = "Sine"
+
+[node name="weight" type="Label" parent="." unique_id=746285209]
+layout_mode = 2
+text = "0.5"
+
+[connection signal="button_down" from="removebutton" to="." method="_on_removebutton_button_down"]

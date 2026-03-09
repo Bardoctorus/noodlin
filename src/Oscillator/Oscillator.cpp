@@ -45,6 +45,11 @@ float Oscillator::getNextSample() {
 
 void Oscillator::setFrequency(float _frequency) {
 	frequency = _frequency * frequencyMod;
+	// quick and dirty range clamp for now. 
+	// This can come out eventually, but never give Godot side 
+	// enough to mess up the things
+	if(frequency > MAXFREQ) frequency = MAXFREQ;
+	if(frequency < MINFREQ) frequency = MINFREQ;
 	setIncrement(frequency);
 }
 

@@ -13,6 +13,8 @@ void BaseController::_bind_methods() {
 	godot::ClassDB::bind_method(D_METHOD("start"), &BaseController::start);
 	godot::ClassDB::bind_method(D_METHOD("stop"), &BaseController::stop);
 	godot::ClassDB::bind_method(D_METHOD("process", "playback"), &BaseController::process);
+
+	godot::ClassDB::bind_method(D_METHOD("logmax", "sample"), &BaseController::logmax);
 }
 
 BaseController::BaseController() {
@@ -27,6 +29,9 @@ BaseController::BaseController() {
 	DetuneAmount = "DetuneAmount";
 	LFOFreq = "LFOFreq";
 	LFOAmount = "LFOAmount";
+
+	logMaxNegOutput = 0.0f;
+	logMaxPosOutput = 0.0f;
 }
 
 BaseController::~BaseController() {
@@ -35,6 +40,7 @@ BaseController::~BaseController() {
 void BaseController::init(float _sampleRate, Array voices) {
 	//ugly as fuck but testing is testing.
 	//in future init can be more selective over what it actually generates
+	
 	wavetableGen.instantiate();
 
 	wavetables[Sine] = wavetableGen->createStandardWavetable(0);
@@ -43,27 +49,27 @@ void BaseController::init(float _sampleRate, Array voices) {
 	wavetables[Square] = wavetableGen->createStandardWavetable(3);
 	wavetables[Triangle] = wavetableGen->createStandardWavetable(4);
 
-	
-
 	for (size_t i = 0; i < voices.size(); i++) {
 		Ref<Oscillator> oscInit;
+		String t = voices[i];
 		oscInit.instantiate();
 		oscInit->reset(i, wavetables[voices[i]], voices[i], _sampleRate);
 		oscillators.push_back(oscInit);
-		print_line("instantiated osc: ", i, " type: ",voices[i]);
+		print_line("instantiated osc: ", (int)i, " type: ", t);
 	}
 }
-
 
 void BaseController::update(float _sampleRate, Array voices) {
 	if (currentlyPlaying)
 		stop();
 	oscillators.clear();
-	for (size_t i = 0; i < voices.size(); i++) {
+	logMaxNegOutput = 0.0f;
+	logMaxPosOutput = 0.0f;
+	for (int i = 0; i < voices.size(); i++) {
 		Ref<Oscillator> oscUpdate;
 		oscUpdate.instantiate();
 		oscUpdate->reset(i, wavetables[voices[i]], voices[i], _sampleRate);
-		print_line("Osc ",i+1," new type: ",voices[i]);
+		print_line("Osc ", i + 1, " new type: ", (String)voices[i]);
 		oscillators.push_back(oscUpdate);
 	}
 	print_line("updated: ", oscillators.size(), " oscillators now");
@@ -76,6 +82,15 @@ float BaseController::getAmplitude() const {
 
 void BaseController::setAmplitude(float _amplitude) {
 	amplitude = _amplitude;
+}
+
+void BaseController::logmax(float sample) {
+	if (sample <= 0.0f && sample < logMaxNegOutput) {
+		logMaxNegOutput = sample;
+	}
+	if (sample >= 0.0f && sample > logMaxPosOutput) {
+		logMaxPosOutput = sample;
+	}
 }
 
 float BaseController::getFrequency() const {
@@ -95,7 +110,7 @@ void BaseController::updateModifiers(Dictionary modifiers) {
 	for (size_t i = 0; i < parameter.size(); i++) {
 		//switch here probably better
 		if (parameter[i] == DetuneAmount) {
-			print_line("modifiers position ", i, " ", parameter[i], ": ", modifiers[parameter[i]]);
+			print_line("modifiers position ", (int)i, " ", (String)parameter[i], ": ", (float)modifiers[parameter[i]]);
 			float detuneAmount = modifiers[parameter[i]];
 			for (size_t j = 0; j < oscillators.size(); j++) {
 				Ref<Oscillator> osc = Ref<Oscillator>(Object::cast_to<Oscillator>(oscillators[j]));
@@ -105,10 +120,10 @@ void BaseController::updateModifiers(Dictionary modifiers) {
 			}
 		}
 		if (parameter[i] == LFOFreq) {
-			print_line("modifiers position ", i, parameter[i], ": ", modifiers[parameter[i]]);
+			//print_line("modifiers position ", i, " ", parameter[i], ": ", modifiers[parameter[i]]);
 		}
 		if (parameter[i] == LFOAmount) {
-			print_line("modifiers position ", i, parameter[i], ": ", modifiers[parameter[i]]);
+			//print_line("modifiers position ", i, " ", parameter[i], ": ", modifiers[parameter[i]]);
 		}
 	}
 	print_line("modifers size: ", modifiers.size(), " Param array size: ", parameter.size());
@@ -144,10 +159,17 @@ void BaseController::process(Ref<AudioStreamGeneratorPlayback> playback) {
 			Ref<Oscillator> osc = Ref<Oscillator>(Object::cast_to<Oscillator>(oscillators[i]));
 
 			if (osc->isCurrentlyPlaying()) {
-				sample += osc->getNextSample() * amplitude;
+				sample += (osc->getNextSample()/(float)oscillators.size()) * amplitude;
 			}
 		}
 
+		//dirty limiter for now
+		if (sample <= -1.0f)
+			sample = -1.0f;
+		if (sample >= 1.0f)
+			sample = 1.0f;
+		// logmax(sample);
+		// print_line("new highest negative sample: ", logMaxNegOutput, " new highest pos sample: ", logMaxPosOutput);
 		bbuffer.push_back(Vector2(sample, sample));
 	}
 	playback->push_buffer(bbuffer);

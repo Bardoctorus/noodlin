@@ -6,6 +6,10 @@
 
 using namespace godot;
 
+//dirty freq clamp values
+#define MAXFREQ 150000.0f
+#define MINFREQ 20.0f
+
 class Oscillator : public RefCounted {
     GDCLASS(Oscillator, RefCounted)
 
@@ -49,5 +53,6 @@ class Oscillator : public RefCounted {
         float amplitudeMod;
         bool isPlaying;
         bool readyToPlay;
+      
 
 };

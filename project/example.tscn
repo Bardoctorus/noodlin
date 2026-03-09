@@ -265,6 +265,22 @@ text = "4x"
 [node name="lfoxmultbutton" type="CheckButton" parent="CharacterBody3D/Camera3D/Container/lfobox" unique_id=1853439046]
 layout_mode = 2
 
+[node name="lfobox2" type="HBoxContainer" parent="CharacterBody3D/Camera3D/Container" unique_id=1793400057]
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="CharacterBody3D/Camera3D/Container/lfobox2" unique_id=2013510835]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 1
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "22050.0"
+popup/item_0/id = 0
+popup/item_1/text = "44100.0"
+popup/item_1/id = 1
+popup/item_2/text = "48000.0"
+popup/item_2/id = 2
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=233257935]
 mesh = SubResource("SphereMesh_wcwec")
 
@@ -306,3 +322,4 @@ environment = SubResource("Environment_ei00m")
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/lfobox/lfoamountslider" to="Area3D/AudioNodeTest" method="_on_lfoamountslider_value_changed"]
 [connection signal="value_changed" from="CharacterBody3D/Camera3D/Container/lfobox/lfofreqslider" to="Area3D/AudioNodeTest" method="_on_lfofreqslider_value_changed"]
 [connection signal="toggled" from="CharacterBody3D/Camera3D/Container/lfobox/lfoxmultbutton" to="Area3D/AudioNodeTest" method="_on_lfox_4_button_toggled"]
+[connection signal="item_selected" from="CharacterBody3D/Camera3D/Container/lfobox2/OptionButton" to="Area3D/AudioNodeTest" method="_on_option_button_item_selected"]

@@ -1,0 +1,143 @@
+[gd_scene format=3 uid="uid://yen2uuhjq1da"]
+
+[ext_resource type="Script" uid="uid://bkxrwebedkwvv" path="res://synthbuilderui.gd" id="1_y8afj"]
+[ext_resource type="PackedScene" uid="uid://cfr377c7lfcpr" path="res://added_osc_details.tscn" id="2_l4mxj"]
+
+[node name="Control" type="Control" unique_id=1576109321]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SynthBuilderParentContainer" type="MarginContainer" parent="." unique_id=382015702 node_paths=PackedStringArray("GuiAddedOscList", "SynthConfigDropdown", "UserWeightFeedback")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+script = ExtResource("1_y8afj")
+GuiAddedOscList = NodePath("SynthBuilderVBoxContainer/SynthBuilderOutputPanel/VBoxContainer/OutputOscillator Details/OutputAddedOscList")
+GuiAddedOsc = ExtResource("2_l4mxj")
+SynthConfigDropdown = NodePath("SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails/ynthConfigOscWaveDropdown")
+UserWeightFeedback = NodePath("SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails/synthconfigweightvaluefeedback")
+
+[node name="SynthBuilderVBoxContainer" type="HBoxContainer" parent="SynthBuilderParentContainer" unique_id=1066608066]
+layout_mode = 2
+
+[node name="SynthBuilderSelectionPanel" type="PanelContainer" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer" unique_id=183310902]
+layout_mode = 2
+
+[node name="SynthConfigVBoxContainer" type="VBoxContainer" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel" unique_id=366757274]
+layout_mode = 2
+
+[node name="SynthConfigOscillatorDetails" type="HBoxContainer" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer" unique_id=907483376]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ynthConfigOscTypeLabel" type="Label" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails" unique_id=134872799]
+layout_mode = 2
+text = "Oscillator Type:"
+
+[node name="ynthConfigOscWaveDropdown" type="OptionButton" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails" unique_id=1109519904]
+layout_mode = 2
+item_count = 5
+popup/item_0/text = "Sine"
+popup/item_0/id = 0
+popup/item_1/text = "Sawup"
+popup/item_1/id = 1
+popup/item_2/text = "Sawdown"
+popup/item_2/id = 2
+popup/item_3/text = "Square"
+popup/item_3/id = 3
+popup/item_4/text = "Triangle"
+popup/item_4/id = 4
+
+[node name="ynthConfigWeightLabel" type="Label" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails" unique_id=1867118129]
+layout_mode = 2
+text = "Weight"
+
+[node name="ynthConfigOscWeightBox" type="HScrollBar" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails" unique_id=1669818957]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+
+[node name="synthconfigweightvaluefeedback" type="Label" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails" unique_id=1186289569]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+text = "0.0"
+
+[node name="ynthConfigAddOscButton" type="Button" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails" unique_id=1319000968]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "Add"
+
+[node name="SynthConfigLFODetails" type="HBoxContainer" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer" unique_id=6556463]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ynthConfigLFOTypeLabel" type="Label" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigLFODetails" unique_id=870392784]
+layout_mode = 2
+text = "LFO Type:"
+
+[node name="ynthConfigLFOWaveDropdown" type="OptionButton" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigLFODetails" unique_id=1893764902]
+layout_mode = 2
+item_count = 5
+popup/item_0/text = "Sine"
+popup/item_0/id = 0
+popup/item_1/text = "Sawup"
+popup/item_1/id = 1
+popup/item_2/text = "Sawdown"
+popup/item_2/id = 2
+popup/item_3/text = "Square"
+popup/item_3/id = 3
+popup/item_4/text = "Triangle"
+popup/item_4/id = 4
+
+[node name="ynthConfigWeightLabel" type="Label" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigLFODetails" unique_id=1186583650]
+layout_mode = 2
+text = "LFO target: "
+
+[node name="ynthConfigLFOTargetDropdown" type="OptionButton" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigLFODetails" unique_id=161477940]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "Amplitude"
+popup/item_0/id = 0
+popup/item_1/text = "Frequency"
+popup/item_1/id = 1
+
+[node name="ynthConfigAddLFOButton" type="Button" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigLFODetails" unique_id=2002537749]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "Add"
+
+[node name="SynthBuilderOutputPanel" type="PanelContainer" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer" unique_id=1720510785]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderOutputPanel" unique_id=933286610]
+layout_mode = 2
+
+[node name="OutputOscillator Details" type="HBoxContainer" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderOutputPanel/VBoxContainer" unique_id=837419158]
+layout_mode = 2
+
+[node name="OutputOscTypeLabel" type="Label" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderOutputPanel/VBoxContainer/OutputOscillator Details" unique_id=2040947621]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Added Oscillators:"
+
+[node name="OutputAddedOscList" type="VBoxContainer" parent="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderOutputPanel/VBoxContainer/OutputOscillator Details" unique_id=192504248]
+layout_mode = 2
+
+[connection signal="item_selected" from="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails/ynthConfigOscWaveDropdown" to="SynthBuilderParentContainer" method="_on_ynth_config_osc_wave_dropdown_item_selected"]
+[connection signal="value_changed" from="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails/ynthConfigOscWeightBox" to="SynthBuilderParentContainer" method="_on_ynth_config_osc_weight_box_value_changed"]
+[connection signal="button_down" from="SynthBuilderParentContainer/SynthBuilderVBoxContainer/SynthBuilderSelectionPanel/SynthConfigVBoxContainer/SynthConfigOscillatorDetails/ynthConfigAddOscButton" to="SynthBuilderParentContainer" method="_on_ynth_config_add_osc_button_button_down"]

@@ -16,6 +16,8 @@
 #include "DataGen/WavetableGen.h"
 #include "Oscillator/Oscillator.h"
 #include "Controllers/BaseController.h"
+#include "Util/SynthBuilder.h"
+
 
 
 
@@ -39,6 +41,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	GDREGISTER_CLASS(WavetableGen);
 	GDREGISTER_CLASS(Oscillator);
 	GDREGISTER_CLASS(BaseController);
+	GDREGISTER_CLASS(SynthBuilder);
 
 }
 
